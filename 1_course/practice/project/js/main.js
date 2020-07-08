@@ -1,12 +1,13 @@
-function close_result()
+function close_result() // закрывает #result
 {
-	document.getElementById("result").setAttribute("style", "transition: 0.25s; opacity: 0");
-	setTimeout(function(){
-		document.getElementById("result").remove();
-	}, 250);
+	// document.getElementById("result").setAttribute("style", "transition: 0.25s; opacity: 0");
+	// setTimeout(function(){
+	// 	document.getElementById("result").remove();
+	// }, 250);
+	document.getElementById("result").remove();
 }
 
-function show_exit()
+function show_exit() // вывод рестика для закрытия #result
 {
 	let btn;
 
@@ -16,7 +17,7 @@ function show_exit()
 	btn.onclick = close_result;
 }
 
-function input_handle()
+function input_handle() // возвращает значения из инпутов
 {
 	let data;
 
@@ -30,7 +31,7 @@ function input_handle()
 	return (data);
 }
 
-function show_library(library)
+function show_library(library) // выводит имеющиеся книги в #library
 {
 	let i;
 
@@ -64,67 +65,64 @@ function show_library(library)
 	}
 }
 
-function get_library()
+function get_library() // возвращает массив имеющихся книг
 {
 	let library;
-	let div;
-	let span;
-	let i;
 
 	library = [];
 	library[0] = {
 		author: "А.С. Пушкин",
 		name: "Дубровский",
 		country: "Russia",
-		year: 2000,
-		count: 10
+		year: 1842,
+		count: 7
 	};
 	library[1] = {
 		author: "Л.Н. Толстой",
 		name: "Война и мир",
 		country: "Russia",
-		year: 2000,
+		year: 1868,
 		count: 10
 	};
 	library[2] = {
 		author: "Л.Н. Толстой",
-		name: "Война и мир",
+		name: "Воскресение",
 		country: "Russia",
-		year: 2000,
-		count: 10
+		year: 1866,
+		count: 12
 	};
 	library[3] = {
-		author: "Л.Н. Толстой",
-		name: "Война и мир",
+		author: "И.С. Тургенев",
+		name: "Отцы и дети",
 		country: "Russia",
-		year: 2000,
-		count: 10
+		year: 1861,
+		count: 8
 	};
 	library[4] = {
-		author: "Л.Н. Толстой",
-		name: "Война и мир",
+		author: "Н.В. Гоголь",
+		name: "Ревизор",
 		country: "Russia",
-		year: 2000,
-		count: 10
+		year: 1836,
+		count: 20
 	};
 	return (library);
 }
 
-function books_cmp(data, lib)
+function books_cmp(data, lib) // подбирает книги из lib похожие на data
 {
 	let books;
 
 	books = [];
 	books[0] = {
-		author: "А.С. Пушкин",
-		name: "Дубровский",
+		author: "Автор",
+		name: "Книга 1",
 		country: "Russia",
 		year: 2000,
 		count: 10
 	};
 	books[1] = {
-		author: "Л.Н. Толстой",
-		name: "Война и мир",
+		author: "Автор",
+		name: "Книга 2",
 		country: "Russia",
 		year: 2000,
 		count: 10
@@ -132,7 +130,7 @@ function books_cmp(data, lib)
 	return (books);
 }
 
-function get_books()
+function get_books() // возвращает массив книг который выводим в #result
 {
 	let lib;
 	let data;
@@ -140,10 +138,11 @@ function get_books()
 	data = input_handle();
 	console.log(data);
 	lib = get_library();
-	return (books_cmp(data, lib));
+	// return (books_cmp(data, lib));
+	return (data);
 }
 
-function show_result()
+function show_result() // вывод блока #result
 {
 	let books;
 	let elem;
@@ -165,7 +164,7 @@ function show_result()
 	}
 	else
 		while (document.getElementById("books_list").firstChild)
-			document.getElementById("books_list").removeChild(document.getElementById("books_list").firstChild);
+			document.getElementById("books_list").firstChild.remove();
 	if (books.length > 0)
 	{
 		document.getElementById("result_span").innerHTML = "Доступные книги:";
@@ -179,7 +178,8 @@ function show_result()
 		}
 	}
 	else
-		document.getElementById("result_span").innerHTML = "Книги не найдены";
+		document.getElementById("result_span").innerHTML = books.author + " " + books.name + " " + books.country + " " + books.year + " " + books.count;
+		// document.getElementById("result_span").innerHTML = "Книги не найдены";
 }
 
 show_library(get_library());

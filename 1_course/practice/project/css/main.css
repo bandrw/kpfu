@@ -103,7 +103,7 @@ body {
 	border-radius: 5px;
 	padding: 20px 0;
 	position: relative;
-	animation: result_animation 0.25s 1;
+	/*animation: result_animation 0.25s 1;*/
 	z-index: 50;
 }
 
@@ -140,15 +140,15 @@ body {
 	transform: rotate(-45deg);
 }
 
-@keyframes result_animation {
+/*@keyframes result_animation {
 	0% {
-		margin-left: -740px;
+		margin-left: -1090px;
 	}
 
 	100% {
 		margin-left: 0;
 	}
-}
+}*/
 
 #library {
 	margin: 0 auto;
@@ -175,13 +175,30 @@ body {
 
 .library_book {
 	margin: 10px;
-	width: 250px;
 	height: 250px;
+	padding: 10px 20px;
 	border: 1px solid black;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+
+.library_book > span {
+	border-bottom: 1px solid #ccc;
+	margin: 5px 0;
+	width: 100%;
+	text-align: right;
+	position: relative;
+}
+
+.library_book > span:before {
+	display: block;
+	color: #777;
+	font-size: 0.8em;
+	float: left;
+	margin-right: 15px;
+	margin-top: 3px;
 }
 
 .lib_book_author:before {
