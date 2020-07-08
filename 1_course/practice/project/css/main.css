@@ -5,7 +5,6 @@
 	padding: 0;
 	box-sizing: border-box;
 	font-family: "Roboto", sans-serif;
-	transition: 2s;
 }
 
 body {
@@ -19,7 +18,15 @@ body {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	max-width: 80%;
+	max-width: 1100px;
+}
+
+#book_logo {
+	width: 50px;
+	height: 50px;
+	background: url("../img/book_logo.png") center no-repeat;
+	background-size: contain;
+	margin-bottom: 10px;
 }
 
 #main_form {
@@ -33,6 +40,8 @@ body {
 	background: #fffdee;
 	box-shadow: 0 10px 30px #999;
 	border-radius: 5px;
+	z-index: 100;
+	transition: 0.25s;
 }
 
 #main_form > div {
@@ -59,7 +68,7 @@ body {
 }
 
 #lib_request_btn {
-	margin-top: 20px;
+	margin-top: 10px;
 	width: 300px;
 	height: 40px;
 	cursor: pointer;
@@ -94,6 +103,8 @@ body {
 	border-radius: 5px;
 	padding: 20px 0;
 	position: relative;
+	animation: result_animation 0.25s 1;
+	z-index: 50;
 }
 
 #result_span {
@@ -127,4 +138,68 @@ body {
 #close_res_btn:after {
 	webkit-transform: rotate(-45deg);
 	transform: rotate(-45deg);
+}
+
+@keyframes result_animation {
+	0% {
+		margin-left: -740px;
+	}
+
+	100% {
+		margin-left: 0;
+	}
+}
+
+#library {
+	margin: 0 auto;
+	padding: 20px 0;
+	max-width: 1100px;
+}
+
+#library_header {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 40px;
+	background: #ffa500;
+	padding: 0 30px;
+	border-radius: 25px 25px 0 0;
+}
+
+#library_content {
+	padding: 20px 145px;
+	display: flex;
+	flex-wrap: wrap;
+	background: #fffdee;
+}
+
+.library_book {
+	margin: 10px;
+	width: 250px;
+	height: 250px;
+	border: 1px solid black;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.lib_book_author:before {
+	content: "Автор: ";
+}
+
+.lib_book_name:before {
+	content: "Название: ";
+}
+
+.lib_book_country:before {
+	content: "Страна: ";
+}
+
+.lib_book_year:before {
+	content: "Год: ";
+}
+
+.lib_book_count:before {
+	content: "Количество: ";
 }
