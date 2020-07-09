@@ -14,7 +14,7 @@ function create_result() // создаем блок #result
 	let elem;
 
 	document.getElementById("main_form").style.marginLeft = "-" +
-	(document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+		(document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
 	elem = document.createElement("div");
 	elem.id = "result";
 	document.getElementById("container").appendChild(elem);
@@ -80,50 +80,22 @@ function show_library() // выводит имеющиеся книги в #g_li
 	}
 }
 
-function books_cmp(data) // подбирает книги из g_library похожие на data
-{
-	let books;
-
-	books = [];
-	books[0] = {
-		author: "Автор",
-		name: "Книга 1",
-		country: "Russia",
-		year: 2000,
-		count: 10
-	};
-	books[1] = {
-		author: "Автор",
-		name: "Книга 2",
-		country: "Russia",
-		year: 2000,
-		count: 10
-	};
-	return (books);
-}
-
 function get_books() // возвращает массив книг который выводим в #result
 {
 	let data;
 	let test;
+	let i;
+	let book_count;
 
 	test = [];
-	test[0] = {
-		author: "Автор",
-		name: "Книга 1",
-		country: "Russia",
-		year: 2000,
-		count: 10
-	};
-	test[1] = {
-		author: "Это",
-		name: "Пример",
-		country: "Russia",
-		year: 2000,
-		count: 10
-	};
+	i = 0;
+	book_count = Math.floor(Math.random() * 4);
+	while (i < book_count)
+	{
+		test[i] = g_library[Math.floor(Math.random() * 4)];
+		i++;
+	}
 	data = get_input();
-	console.log(data);
 	return (test);
 }
 
