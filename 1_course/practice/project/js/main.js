@@ -1,23 +1,38 @@
 function close_result() // закрывает #result
 {
-	// document.getElementById("result").setAttribute("style", "transition: 0.25s; opacity: 0");
-	// setTimeout(function(){
-	// 	document.getElementById("result").remove();
-	// }, 250);
-	document.getElementById("result").remove();
+	document.getElementById("main_form").style.marginLeft = null;
+	document.getElementById("result").style.marginLeft = null;
+	document.getElementById("result").style.transform = "scale(0.5) rotate(30deg)";
+	setTimeout(function(){
+		document.getElementById("result").remove();
+	}, 500);
 }
 
-function show_exit() // вывод рестика для закрытия #result
+function create_result() // создаем блок #result
 {
 	let btn;
+	let elem;
 
+	document.getElementById("main_form").style.marginLeft = "-" +
+	(document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+	elem = document.createElement("div");
+	elem.id = "result";
+	document.getElementById("container").appendChild(elem);
+	document.getElementById("result").style.marginLeft =
+		(document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+	elem = document.createElement("span");
+	elem.id = "result_span";
+	document.getElementById("result").appendChild(elem);
+	elem = document.createElement("ul");
+	elem.id = "books_list";
+	document.getElementById("result").appendChild(elem);
 	btn = document.createElement("span");
 	btn.id = "close_res_btn";
 	document.getElementById("result").appendChild(btn);
 	btn.onclick = close_result;
 }
 
-function input_handle() // возвращает значения из инпутов
+function get_input() // возвращает значения из инпутов
 {
 	let data;
 
@@ -31,84 +46,41 @@ function input_handle() // возвращает значения из инпут
 	return (data);
 }
 
-function show_library(library) // выводит имеющиеся книги в #library
+function show_library() // выводит имеющиеся книги в #g_library
 {
 	let i;
 
 	i = 0;
-	while (i < library.length)
+	while (i < g_library.length)
 	{
 		div = document.createElement("div");
 		div.className = "library_book";
 		span = document.createElement("span");
 		span.className = "lib_book_author";
-		span.innerHTML = library[i].author;
+		span.innerHTML = g_library[i].author;
 		div.appendChild(span);
 		span = document.createElement("span");
 		span.className = "lib_book_name";
-		span.innerHTML = library[i].name;
+		span.innerHTML = g_library[i].name;
 		div.appendChild(span);
 		span = document.createElement("span");
 		span.className = "lib_book_country";
-		span.innerHTML = library[i].country;
+		span.innerHTML = g_library[i].country;
 		div.appendChild(span);
 		span = document.createElement("span");
 		span.className = "lib_book_year";
-		span.innerHTML = library[i].year;
+		span.innerHTML = g_library[i].year;
 		div.appendChild(span);
 		span = document.createElement("span");
 		span.className = "lib_book_count";
-		span.innerHTML = library[i].count;
+		span.innerHTML = g_library[i].count;
 		div.appendChild(span);
 		document.getElementById("library_content").appendChild(div);
 		i++;
 	}
 }
 
-function get_library() // возвращает массив имеющихся книг
-{
-	let library;
-
-	library = [];
-	library[0] = {
-		author: "А.С. Пушкин",
-		name: "Дубровский",
-		country: "Russia",
-		year: 1842,
-		count: 7
-	};
-	library[1] = {
-		author: "Л.Н. Толстой",
-		name: "Война и мир",
-		country: "Russia",
-		year: 1868,
-		count: 10
-	};
-	library[2] = {
-		author: "Л.Н. Толстой",
-		name: "Воскресение",
-		country: "Russia",
-		year: 1866,
-		count: 12
-	};
-	library[3] = {
-		author: "И.С. Тургенев",
-		name: "Отцы и дети",
-		country: "Russia",
-		year: 1861,
-		count: 8
-	};
-	library[4] = {
-		author: "Н.В. Гоголь",
-		name: "Ревизор",
-		country: "Russia",
-		year: 1836,
-		count: 20
-	};
-	return (library);
-}
-
-function books_cmp(data, lib) // подбирает книги из lib похожие на data
+function books_cmp(data) // подбирает книги из g_library похожие на data
 {
 	let books;
 
@@ -132,14 +104,27 @@ function books_cmp(data, lib) // подбирает книги из lib похо
 
 function get_books() // возвращает массив книг который выводим в #result
 {
-	let lib;
 	let data;
+	let test;
 
-	data = input_handle();
+	test = [];
+	test[0] = {
+		author: "Автор",
+		name: "Книга 1",
+		country: "Russia",
+		year: 2000,
+		count: 10
+	};
+	test[1] = {
+		author: "Это",
+		name: "Пример",
+		country: "Russia",
+		year: 2000,
+		count: 10
+	};
+	data = get_input();
 	console.log(data);
-	lib = get_library();
-	// return (books_cmp(data, lib));
-	return (data);
+	return (test);
 }
 
 function show_result() // вывод блока #result
@@ -150,18 +135,7 @@ function show_result() // вывод блока #result
 
 	books = get_books();
 	if (document.getElementById("result") == null)
-	{
-		elem = document.createElement("div");
-		elem.id = "result";
-		document.getElementById("container").appendChild(elem);
-		elem = document.createElement("span");
-		elem.id = "result_span";
-		document.getElementById("result").appendChild(elem);
-		elem = document.createElement("ul");
-		elem.id = "books_list";
-		document.getElementById("result").appendChild(elem);
-		show_exit();
-	}
+		create_result();
 	else
 		while (document.getElementById("books_list").firstChild)
 			document.getElementById("books_list").firstChild.remove();
@@ -178,9 +152,8 @@ function show_result() // вывод блока #result
 		}
 	}
 	else
-		document.getElementById("result_span").innerHTML = books.author + " " + books.name + " " + books.country + " " + books.year + " " + books.count;
-		// document.getElementById("result_span").innerHTML = "Книги не найдены";
+		document.getElementById("result_span").innerHTML = "Книги не найдены";
 }
 
-show_library(get_library());
+show_library();
 document.getElementById("lib_request_btn").onclick = show_result;
