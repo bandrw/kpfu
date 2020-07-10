@@ -22,7 +22,7 @@ body {
 	height: 667px;
 	position: relative;
 	perspective: 1000px;
-	perspective-origin: 750px 0;
+	perspective-origin: 850px 0;
 }
 
 #book_logo {
