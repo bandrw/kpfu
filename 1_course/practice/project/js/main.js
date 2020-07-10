@@ -1,35 +1,92 @@
-function close_result() // закрывает #result
+let g_transition = 0.5;
+
+function lastChild(arr)
 {
-	document.getElementById("main_form").style.marginLeft = null;
-	document.getElementById("result").style.marginLeft = null;
-	document.getElementById("result").style.transform = "scale(0.5) rotate(30deg)";
-	setTimeout(function(){
-		document.getElementById("result").remove();
-	}, 500);
+	if (arr)
+		return (arr[arr.length - 1]);
+	else
+		return (null);
 }
 
-function create_result() // создаем блок #result
+function close_result() // закрывает result
 {
-	let btn;
-	let elem;
+	let result_arr;
 
-	document.getElementById("main_form").style.marginLeft = "-" +
-		(document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
-	elem = document.createElement("div");
-	elem.id = "result";
-	document.getElementById("container").appendChild(elem);
-	document.getElementById("result").style.marginLeft =
-		(document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+	result_arr = document.getElementsByClassName("result");
+	document.getElementById("main_form").style.marginLeft = null;
+	while (result_arr.length > 1)
+		result_arr[1].remove();
+	if (result_arr[0])
+	{
+		result_arr[0].style.marginLeft = null;
+		result_arr[0].style.transform = "scale(0.5) rotate(30deg)";
+		setTimeout(function() {
+			if (result_arr[0])
+				result_arr[0].remove();
+		}, g_transition * 1000);
+	}
+}
+
+function result_animate(result) // анимация появления и замены result
+{
+	let prev_result;
+
+	if (document.getElementsByClassName("result").length == 0)
+	{
+		// сдвигаем result и main_form
+		document.getElementById("main_form").style.marginLeft = "-" +
+			(document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+		document.getElementById("container").appendChild(result);
+		result.style.marginLeft = (document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+	}
+	else
+	{
+		// сдвигаем result вверх - вниз
+		result.style.marginLeft = (document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+		result.style.transition = g_transition / 2 + "s ease-out";
+		document.getElementById("container").appendChild(result);
+		setTimeout(function() {
+			result.style.zIndex = "20";
+			result.style.marginTop = "-" + (result.offsetHeight / 2 + 10) + "px";
+			result.style.transform = "rotateX(30deg)";
+		}, 0);
+		prev_result = document.getElementsByClassName("result")[document.getElementsByClassName("result").length - 2];
+		prev_result.style.transition = g_transition / 2 + "s ease-out";
+		prev_result.style.marginTop = (prev_result.offsetHeight / 2 + 10) + "px";
+		prev_result.style.transform = "rotateX(30deg)";
+		setTimeout(function() {
+			prev_result.style.zIndex = "20";
+			result.style.zIndex = "50";
+		}, g_transition / 2 * 1000);
+		setTimeout(function() {
+			result.style.marginTop = null;
+			result.style.transition = g_transition + "s ease";
+			result.style.transform = null;
+			prev_result.style.marginTop = null;
+			prev_result.style.opacity = "0"
+		}, g_transition / 2 * 1000);
+	}
+}
+
+function create_result() // создаем блок result
+{
+	let elem;
+	let result;
+
+	result = document.createElement("div");
+	result.style.transition = g_transition + "s ease";
+	result.className = "result";
 	elem = document.createElement("span");
-	elem.id = "result_span";
-	document.getElementById("result").appendChild(elem);
+	elem.className = "result_span";
+	result.appendChild(elem);
 	elem = document.createElement("ul");
-	elem.id = "books_list";
-	document.getElementById("result").appendChild(elem);
-	btn = document.createElement("span");
-	btn.id = "close_res_btn";
-	document.getElementById("result").appendChild(btn);
-	btn.onclick = close_result;
+	elem.className = "books_list";
+	result.appendChild(elem);
+	elem = document.createElement("span");
+	elem.className = "close_res_btn";
+	result.appendChild(elem);
+	elem.onclick = close_result;
+	result_animate(result);
 }
 
 function get_input() // возвращает значения из инпутов
@@ -46,7 +103,7 @@ function get_input() // возвращает значения из инпуто�
 	return (data);
 }
 
-function show_library() // выводит имеющиеся книги в #g_library
+function show_library() // выводит имеющиеся книги из g_library в #library_content
 {
 	let i;
 
@@ -80,7 +137,7 @@ function show_library() // выводит имеющиеся книги в #g_li
 	}
 }
 
-function get_books() // возвращает массив книг который выводим в #result
+function get_books() // возвращает массив книг который выводим в result -> ul
 {
 	let data;
 	let test;
@@ -99,33 +156,41 @@ function get_books() // возвращает массив книг которы�
 	return (test);
 }
 
-function show_result() // вывод блока #result
+function show_result() // вывод блока result
 {
 	let books;
 	let elem;
 	let i;
 
+	// выключаем кнопку после нажатия и включаем после анимации
+	document.getElementById("lib_request_btn").setAttribute("disabled", "disabled");
+	setTimeout(function() {
+		document.getElementById("lib_request_btn").removeAttribute("disabled");
+	}, g_transition * 1000);
+	//books - массив подобранных книг
 	books = get_books();
-	if (document.getElementById("result") == null)
-		create_result();
-	else
-		while (document.getElementById("books_list").firstChild)
-			document.getElementById("books_list").firstChild.remove();
+	create_result();
+	if (document.getElementsByClassName("result").length > 1)
+		setTimeout(function() {
+			if (document.getElementsByClassName("result")[0])
+				document.getElementsByClassName("result")[0].remove();
+		}, g_transition * 1000);
 	if (books.length > 0)
 	{
-		document.getElementById("result_span").innerHTML = "Доступные книги:";
+		lastChild(document.getElementsByClassName("result_span")).innerHTML = "Доступные книги:";
 		i = 0;
 		while (i < books.length)
 		{
 			elem = document.createElement("li");
 			elem.innerHTML = books[i].author + " - " + books[i].name;
-			document.getElementById("books_list").appendChild(elem);
+			lastChild(document.getElementsByClassName("books_list")).appendChild(elem);
 			i++;
 		}
 	}
 	else
-		document.getElementById("result_span").innerHTML = "Книги не найдены";
+		lastChild(document.getElementsByClassName("result_span")).innerHTML = "Книги не найдены";
 }
 
+document.getElementById("main_form").style.transition = g_transition + "s ease";
 show_library();
 document.getElementById("lib_request_btn").onclick = show_result;
