@@ -27,17 +27,17 @@ function str_next(str)
 	return (s);
 }
 
-function ft_match(s1, s2)
+function ft_match(s1, s2) // регулярные выражения
 {
 	if (s1[0] == null && s2[0] == null)
-		return (1);
+		return (true);
 	if (s1[0] == null && s2[0] == "*")
 		return (ft_match(s1, str_next(s2)));
 	if (s1[0] != null && s1[0] == s2[0])
 		return (ft_match (str_next(s1), str_next(s2)));
 	if (s1[0] != null && s2[0] == "*")
-		return (ft_match(s1, str_next(s2)) || ft_match (str_next(s1), s2));
-	return (0);
+		return (ft_match(s1, str_next(s2)) || ft_match(str_next(s1), s2));
+	return (false);
 }
 
 function match(str1, str2)

@@ -14,12 +14,12 @@ body {
 
 #container {
 	margin: 0 auto;
-	padding: 50px 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	max-width: 1100px;
-	height: 667px;
+	min-height: 100vh;
+	max-height: 1200px;
 	position: relative;
 	perspective: 1000px;
 	perspective-origin: 850px 0;
@@ -60,24 +60,25 @@ body {
 	margin-bottom: 5px;
 }
 
-#main_form > div > input {
+.main_form_input {
 	border: 0;
+	outline: 0;
 	border-bottom: 2px dashed #ccc;
 	background: transparent;
-	outline: 0;
 	height: 30px;
 	font-size: 0.9em;
 	padding-left: 15px;
 }
 
 #lib_request_btn {
+	border: 0;
+	outline: 0;
 	margin-top: 15px;
 	width: 300px;
 	height: 40px;
 	cursor: pointer;
 	background: #303030;
 	color: #fff;
-	border: 0;
 	font-size: 0.9em;
 }
 
@@ -91,30 +92,47 @@ body {
 	bottom: 21px;
 	transform: rotate(-45deg);
 	-webkit-transform: rotate(-45deg);
+	transition: 0.15s;
 }
 
-.result {
+.main_form_input:focus + label {
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+}
+
+#result {
 	width: 500px;
 	border: 1px solid #303030;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	background: #fffdee;
 	box-shadow: 0 10px 50px #999;
 	border-radius: 5px;
-	padding: 30px;
+	padding: 30px 0;
 	position: absolute;
 	z-index: 50;
 	overflow: hidden;
-	transform-style: preserve-3d;
-	perspective-origin: 100% 0;
 }
 
 .result_span {
-	margin-bottom: 15px;
+	position: absolute;
+	text-align: center;
+	width: 100%;
 }
 
-.close_res_btn {
+.books_list {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	margin-top: 53px;
+}
+
+.books_list li {
+	position: relative;
+	margin: 2px 0;
+}
+
+#close_res_btn {
 	position: absolute;
 	top: 10px;
 	right: 10px;
@@ -124,30 +142,39 @@ body {
 	cursor: pointer;
 }
 
-.close_res_btn:after, .close_res_btn:before {
+#close_res_btn:after, #close_res_btn:before {
 	content: "";
 	position: absolute;
-	top: 10px;
+	top: 9px;
 	width: 20px;
 	height: 2px;
 	background: #303030;
 }
 
-.close_res_btn:before {
+#close_res_btn:before {
 	webkit-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
 
-.close_res_btn:after {
+#close_res_btn:after {
 	webkit-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 }
 
-.books_list {
-	text-align: center;
+#library_href {
+	display: block;
+	text-decoration: none;
+	position: absolute;
+	bottom: 20px;
+	color: #888;
 }
 
-.books_list > li {
+#library_href span {
+	webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+	border-color: #888;
+	bottom: 9px;
+	margin-left: 10px;
 }
 
 #library {
@@ -190,6 +217,7 @@ body {
 	width: 100%;
 	text-align: right;
 	position: relative;
+	padding: 1px 0;
 }
 
 .library_book > span:before {

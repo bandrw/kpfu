@@ -1,4 +1,4 @@
-const g_transition = 0.5;
+let g_transition = 0.3;
 
 function show_library() // выводит имеющиеся книги из g_library в #library_content
 {
@@ -38,72 +38,30 @@ function disable_buttons()
 {
 	let i;
 
-	document.getElementById("lib_request_btn").setAttribute("disabled", "disabled");
-	i = 0;
-	while (i < document.getElementsByClassName("close_res_btn").length)
-	{
-		document.getElementsByClassName("close_res_btn")[i].onclick = null;
-		i++;
-	}
+	document.getElementById("lib_request_btn").onclick = null;
+	document.getElementById("close_res_btn").onclick = null;
 	setTimeout(function() {
-		document.getElementById("lib_request_btn").removeAttribute("disabled");
-		i = 0;
-		while (i < document.getElementsByClassName("close_res_btn").length)
-		{
-			document.getElementsByClassName("close_res_btn")[i].onclick = close_result;
-			i++;
-		}
+		document.getElementById("lib_request_btn").onclick = show_result;
+		document.getElementById("close_res_btn").onclick = close_result;
 	}, g_transition * 1000);
 }
 
 function close_result() // закрывает result
 {
-	let result_arr;
+	let result;
 
 	disable_buttons();
-	result_arr = document.getElementsByClassName("result");
-	if (result_arr.length < 1)
+	result = document.getElementById("result");
+	if (result == null)
 	{
 		console.log("Error in close_result");
 		return;
 	}
 	document.getElementById("main_form").style.marginLeft = null;
-	while (result_arr.length > 1)
-		result_arr[1].remove();
-	result_arr[0].style.marginLeft = null;
-	result_arr[0].style.transform = "scale(0.5) rotate(30deg)";
+	result.style.marginLeft = null;
 	setTimeout(function() {
-		result_arr[0].remove();
+		result.remove();
 	}, g_transition * 1000);
-}
-
-function result_animate() // анимация появления и замены result
-{
-	let results;
-
-	results = document.getElementsByClassName("result"); // results[0] - старый результат, results[1] - новый
-	if (results.length != 2)
-	{
-		console.log("Error in result_animate");
-		return;
-	}
-	results[0].style.transition = g_transition / 2 + "s ease-out"; // первая половина анимации
-	results[1].style.transition = g_transition / 2 + "s ease-out";
-	results[0].style.transform = "rotateX(30deg) translateZ(0)";
-	results[1].style.transform = "rotateX(30deg) translateZ(-100px)";
-	results[0].style.marginTop = (results[0].offsetHeight / 2) + "px";
-	results[1].style.marginTop = "-" + (results[1].offsetHeight / 2 * 2.5) + "px";
-	results[1].style.zIndex = "49";
-	setTimeout(function() { // вторая половина анимации
-		results[0].style.zIndex = "49";
-		results[1].style.zIndex = "50";
-		results[0].style.marginTop = null;
-		results[1].style.marginTop = null;
-		results[1].style.transition = g_transition + "s ease";
-		results[0].style.opacity = "0";
-		results[0].style.transform = "translateZ(-100px)"
-		results[1].style.transform = null;
-	}, g_transition / 2 * 1000);
 }
 
 function create_result() // создаем блок result
@@ -113,63 +71,74 @@ function create_result() // создаем блок result
 
 	result = document.createElement("div");
 	result.style.transition = g_transition + "s ease";
-	result.className = "result";
+	result.id = "result";
 	elem = document.createElement("span");
-	elem.className = "result_span";
-	result.appendChild(elem);
-	elem = document.createElement("ul");
-	elem.className = "books_list";
-	result.appendChild(elem);
-	elem = document.createElement("span");
-	elem.className = "close_res_btn";
-	result.appendChild(elem);
+	elem.id = "close_res_btn";
 	elem.onclick = close_result;
-	if (document.getElementsByClassName("result").length > 0)
-	{
-		// есть предыдущий результат, анимируем result по оси y
-		result.style.marginLeft = (document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
-		document.getElementById("container").appendChild(result);
-		result_animate();
-	}
+	result.appendChild(elem);
+	elem = document.getElementById("main_form"); // анимация появления result
+	elem.style.marginLeft = "-" + (elem.offsetWidth / 2 + 20) + "px";
+	document.getElementById("container").appendChild(result);
+	result.style.marginLeft = (document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+}
+
+function show_books() // создаем span и ul и анимируем переходы
+{
+	let books;
+	let elem;
+	let ul;
+	let li;
+	let i;
+
+	books = get_books();
+	elem = document.createElement("span");
+	ul = document.createElement("ul");
+	elem.style.transition = g_transition + "s ease";
+	ul.style.transition = g_transition + "s ease";
+	elem.className = "result_span";
+	ul.className = "books_list";
+	if (books.length > 0)
+		elem.innerHTML = "Доступные книги";
 	else
+		elem.innerHTML = "Книги не найдены";
+	books_height = 0;
+	i = 0;
+	while (i < books.length)
 	{
-		// это первый результат, анимируем main_form и result по оси x
-		document.getElementById("main_form").style.marginLeft = "-" +
-			(document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
-		document.getElementById("container").appendChild(result);
-		result.style.marginLeft = (document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+		li = document.createElement("li");
+		li.innerHTML = books[i].author + " - " + books[i].name;
+		ul.appendChild(li);
+		i++;
 	}
-	return (result);
+	if (document.getElementsByClassName("result_span").length > 0)
+	{
+		elem.style.marginLeft = document.getElementById("result").offsetWidth + "px";
+		ul.style.marginLeft = document.getElementById("result").offsetWidth + "px";
+		document.getElementsByClassName("books_list")[0].style.marginLeft =
+			"-" + document.getElementById("result").offsetWidth + "px";
+		document.getElementsByClassName("result_span")[0].style.marginLeft =
+			"-" + document.getElementById("result").offsetWidth + "px";
+		setTimeout(function() {
+			document.getElementsByClassName("books_list")[0].remove();
+			document.getElementsByClassName("result_span")[0].remove();
+		}, g_transition * 1000);
+	}
+	document.getElementById("result").appendChild(elem);
+	document.getElementById("result").appendChild(ul);
+	if (document.getElementsByClassName("result_span").length > 1)
+		setTimeout(function() {
+			elem.style.marginLeft = null;
+			ul.style.marginLeft = null;
+		}, 0);
+	document.getElementById("result").style.height = elem.offsetHeight + 62 + ul.offsetHeight + 30 + "px";
 }
 
 function show_result() // вывод блока result
 {
-	let books;
-	let elem;
-	let result;
-	let i;
-
-	books = get_books(); //books - массив подобранных книг
-	result = create_result(); // создаем result
+	if (document.getElementById("result") == null)
+		create_result();
 	disable_buttons();
-	setTimeout(function() { // конец анимации
-		if (document.getElementsByClassName("result").length > 1)
-			document.getElementsByClassName("result")[0].remove();
-	}, g_transition * 1000);
-	if (books.length > 0) // заполняем result
-	{
-		result.childNodes[0].innerHTML = "Доступные книги:";
-		i = 0;
-		while (i < books.length)
-		{
-			elem = document.createElement("li");
-			elem.innerHTML = books[i].author + " - " + books[i].name;
-			result.childNodes[1].appendChild(elem);
-			i++;
-		}
-	}
-	else
-		result.childNodes[0].innerHTML = "Книги не найдены";
+	show_books();
 }
 
 document.getElementById("main_form").style.transition = g_transition + "s ease";
