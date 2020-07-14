@@ -106,7 +106,7 @@ ul {
 
 #result {
 	width: 500px;
-	max-height: 574px;
+	max-height: 572px;
 	border: 1px solid #303030;
 	display: flex;
 	flex-direction: column;
@@ -134,12 +134,47 @@ ul {
 	overflow-x: none;
 	overflow-y: scroll;
 	padding-left: 10px;
+	padding: 0 10px;
 }
 
 .books_list li {
 	position: relative;
 	margin: 2px 0;
-	padding: 0 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.books_list li span {
+	display: block;
+}
+
+.li_info {
+	width: 20px;
+	height: 20px;
+	margin-left: 10px;
+	position: relative;
+	border: 1px solid #000;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: 0.3s ease;
+}
+
+.li_info:after {
+	display: block;
+	content: "?";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	color: #000;
+	font-weight: bold;
+	font-size: 0.8em;
+}
+
+.li_info:hover {
+	transform: scale(1.15);
 }
 
 #close_res_btn {

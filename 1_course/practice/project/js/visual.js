@@ -1,39 +1,5 @@
 let g_transition = 0.3;
 
-function show_library() // выводит имеющиеся книги из g_library в #library_content
-{
-	let i;
-
-	i = 0;
-	while (i < g_library.length)
-	{
-		div = document.createElement("div");
-		div.className = "library_book";
-		span = document.createElement("span");
-		span.className = "lib_book_author";
-		span.innerHTML = g_library[i].author;
-		div.appendChild(span);
-		span = document.createElement("span");
-		span.className = "lib_book_name";
-		span.innerHTML = g_library[i].name;
-		div.appendChild(span);
-		span = document.createElement("span");
-		span.className = "lib_book_country";
-		span.innerHTML = g_library[i].country;
-		div.appendChild(span);
-		span = document.createElement("span");
-		span.className = "lib_book_year";
-		span.innerHTML = g_library[i].year;
-		div.appendChild(span);
-		span = document.createElement("span");
-		span.className = "lib_book_count";
-		span.innerHTML = g_library[i].count;
-		div.appendChild(span);
-		document.getElementById("library_content").appendChild(div);
-		i++;
-	}
-}
-
 function disable_buttons()
 {
 	let i;
@@ -85,34 +51,56 @@ function create_result() // создаем блок result
 	result.style.transform = "scale(1)";
 }
 
-function show_books() // создаем span и ul и анимируем переходы
+function show_book_info()
+{
+	book = g_library[this.value];
+	alert("Название: " + book.name + "\nАвтор: " + book.author + "\nСтрана: " +
+		book.country + "\nГод: " + book.year + "\nКоличество: " + book.count);
+}
+
+function ul_handle(ul, elem)
 {
 	let books;
-	let elem;
-	let ul;
 	let li;
 	let i;
+	let span;
+	let info;
 
 	books = get_books();
-	elem = document.createElement("span");
-	ul = document.createElement("ul");
-	elem.style.transition = g_transition + "s ease";
-	ul.style.transition = g_transition + "s ease";
-	elem.className = "result_span";
-	ul.className = "books_list";
 	if (books.length > 0)
 		elem.innerHTML = "Доступные книги";
 	else
 		elem.innerHTML = "Книги не найдены";
-	books_height = 0;
 	i = 0;
 	while (i < books.length)
 	{
 		li = document.createElement("li");
-		li.innerHTML = books[i].author + " - " + books[i].name;
+		span = document.createElement("span");
+		span.innerHTML = books[i].author + " - " + books[i].name;
+		li.appendChild(span);
+		info = document.createElement("span");
+		info.className = "li_info";
+		info.value = books[i].id;
+		info.onclick = show_book_info;
+		li.appendChild(info);
 		ul.appendChild(li);
 		i++;
 	}
+}
+
+function show_books() // создаем span и ul и анимируем переходы
+{
+	let elem;
+	let ul;
+	let i;
+
+	elem = document.createElement("span");
+	elem.style.transition = g_transition + "s ease";
+	elem.className = "result_span";
+	ul = document.createElement("ul");
+	ul.style.transition = g_transition + "s ease";
+	ul.className = "books_list";
+	ul_handle(ul, elem);
 	if (document.getElementsByClassName("result_span").length > 0)
 	{
 		elem.style.marginLeft = document.getElementById("result").offsetWidth + "px";
