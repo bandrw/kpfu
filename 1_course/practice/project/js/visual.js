@@ -75,7 +75,9 @@ function ul_handle(ul, elem)
 	while (i < books.length)
 	{
 		li = document.createElement("li");
+		li.className = "books_list_li";
 		span = document.createElement("span");
+		span.style.border = "0"
 		span.innerHTML = books[i].author + " - " + books[i].name;
 		li.appendChild(span);
 		info = document.createElement("span");

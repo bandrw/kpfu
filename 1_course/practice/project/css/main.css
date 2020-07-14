@@ -154,27 +154,36 @@ ul {
 	height: 20px;
 	margin-left: 10px;
 	position: relative;
-	border: 1px solid #000;
+	border: 1px solid transparent;
 	border-radius: 50%;
 	cursor: pointer;
-	transition: 0.3s ease;
+	display: none;
 }
 
 .li_info:after {
-	display: block;
 	content: "?";
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	color: #000;
+	color: transparent;
 	font-weight: bold;
 	font-size: 0.8em;
 }
 
 .li_info:hover {
 	transform: scale(1.15);
+}
+
+.books_list_li:hover > span:after {
+	color: #000;
+	transition: 0.3s ease;
+}
+
+.books_list_li:hover > span{
+	border: 1px solid #000;
+	transition: 0.3s ease;
 }
 
 #close_res_btn {
