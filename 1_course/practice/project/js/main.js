@@ -61,7 +61,7 @@ function get_books() // возвращает массив книг которы�
 	{
 		if (match(data.author, g_library[i].author) && match(data.name, g_library[i].name) &&
 			match(data.country, g_library[i].country) && (data.year == "" || data.year == g_library[i].year) &&
-			data.count <= g_library[i].count)
+			((data.count <= g_library[i].count && data.count > 0) || data.count == ""))
 			res.push(g_library[i]);
 		i++;
 	}

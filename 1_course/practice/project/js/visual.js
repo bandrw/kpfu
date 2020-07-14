@@ -58,6 +58,7 @@ function close_result() // закрывает result
 		return;
 	}
 	document.getElementById("main_form").style.marginLeft = null;
+	result.style.transform = "scale(0.8)";
 	result.style.marginLeft = null;
 	setTimeout(function() {
 		result.remove();
@@ -78,8 +79,10 @@ function create_result() // создаем блок result
 	result.appendChild(elem);
 	elem = document.getElementById("main_form"); // анимация появления result
 	elem.style.marginLeft = "-" + (elem.offsetWidth / 2 + 20) + "px";
+	result.style.transform = "scale(0.8)";
 	document.getElementById("container").appendChild(result);
 	result.style.marginLeft = (document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+	result.style.transform = "scale(1)";
 }
 
 function show_books() // создаем span и ul и анимируем переходы
