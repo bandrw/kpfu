@@ -53,9 +53,13 @@ function create_result() // создаем блок result
 
 function show_book_info()
 {
-	book = g_library[this.value];
-	alert("Название: " + book.name + "\nАвтор: " + book.author + "\nСтрана: " +
-		book.country + "\nГод: " + book.year + "\nКоличество: " + book.count);
+	if (g_library)
+	{
+		book = g_library[this.value];
+		if (book)
+			alert("Название: " + book.name + "\nАвтор: " + book.author + "\nСтрана: " +
+				book.country + "\nГод: " + book.year + "\nКоличество: " + book.count);
+	}
 }
 
 function ul_handle(ul, elem)
@@ -63,7 +67,7 @@ function ul_handle(ul, elem)
 	let books;
 	let li;
 	let i;
-	let span;
+	let div;
 	let info;
 
 	books = get_books();
@@ -76,15 +80,14 @@ function ul_handle(ul, elem)
 	{
 		li = document.createElement("li");
 		li.className = "books_list_li";
-		span = document.createElement("span");
-		span.style.border = "0"
-		span.innerHTML = books[i].author + " - " + books[i].name;
-		li.appendChild(span);
+		div = document.createElement("div");
+		div.innerHTML = books[i].author + " - " + books[i].name;
+		li.appendChild(div);
 		info = document.createElement("span");
 		info.className = "li_info";
 		info.value = books[i].id;
 		info.onclick = show_book_info;
-		li.appendChild(info);
+		div.appendChild(info);
 		ul.appendChild(li);
 		i++;
 	}
@@ -94,7 +97,6 @@ function show_books() // создаем span и ul и анимируем пер�
 {
 	let elem;
 	let ul;
-	let i;
 
 	elem = document.createElement("span");
 	elem.style.transition = g_transition + "s ease";
