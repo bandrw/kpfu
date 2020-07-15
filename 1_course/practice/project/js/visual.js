@@ -136,6 +136,42 @@ function show_result() // вывод блока result
 	show_books();
 }
 
+function scroll_to_library()
+{
+	let start;
+	let timer;
+	let timePassed;
+	let currentScroll;
+	let goal;
+	let src;
+
+	currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+	goal = document.getElementById("library_href").offsetTop;
+	if (goal < currentScroll)
+	{
+		scroll(0, goal);
+		return;
+	}
+	start = Date.now();
+	scr = 3;
+	timer = setInterval(function() {
+		timePassed = Date.now() - start;
+		currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+		if (currentScroll == goal)
+			clearInterval(timer);
+		if (timePassed > 100)
+			scr *= 1.01;
+		if (goal - currentScroll < scr)
+			scr = goal - currentScroll;
+		if (goal - currentScroll < 100)
+			scr *= 0.85;
+		if (scr < 1)
+			scr = 1;
+		scroll(0, currentScroll + scr);
+	}, 1);
+}
+
 document.getElementById("main_form").style.transition = g_transition + "s ease";
 show_library();
 document.getElementById("lib_request_btn").onclick = show_result;
+document.getElementById("library_href").onclick = scroll_to_library;
