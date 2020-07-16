@@ -31,3 +31,27 @@ function ft_list_push_back(list, data)
 		list.next = ft_create_elem(data);
 	}
 }
+
+function ft_sorted_list_insert(begin_list, data)
+{
+	let list;
+	let prev;
+
+	list = begin_list.next;
+	while (list && (data.author > list.data.author))
+	{
+		prev = list;
+		list = list.next;
+	}
+	if (prev)
+	{
+		prev.next = ft_create_elem(data);
+		(prev.next).next = list;
+	}
+	else
+	{
+		prev = ft_create_elem(data);
+		prev.next = list;
+		begin_list.next = prev;
+	}
+}

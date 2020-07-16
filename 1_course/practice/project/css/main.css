@@ -262,7 +262,7 @@ ul {
 	margin: 10px;
 	min-height: 250px;
 	width: 320px;
-	padding: 10px 20px;
+	padding: 25px 20px 10px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, .3),
 				-23px 0 20px -23px rgba(0, 0, 0, .6),
 				23px 0 20px -23px rgba(0, 0, 0, .6),
@@ -272,6 +272,7 @@ ul {
 	justify-content: center;
 	align-items: center;
 	background: #fffdee;
+	position: relative;
 }
 
 .library_book > span {
@@ -308,6 +309,17 @@ ul {
 
 #add_book_hr1 {
 	transform: rotate(90deg);
+}
+
+.library_book_rm {
+	width: 17px;
+	height: 20px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	cursor: pointer;
+	background: url("../img/library_book_rm.png") no-repeat;
+	background-size: cover;
 }
 
 .lib_book_author:before {

@@ -55,7 +55,7 @@ function get_books() // возвращает массив подобранных
 	let list;
 
 	data = get_input();
-	list = g_library_list;
+	list = g_library.next;
 	res = [];
 	while (list)
 	{
