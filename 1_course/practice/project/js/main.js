@@ -48,23 +48,23 @@ function match(str1, str2)
 		return (false);
 }
 
-function get_books() // возвращает массив книг который выводим в result -> ul
+function get_books() // возвращает массив подобранных книг
 {
 	let data;
 	let res;
-	let i;
+	let list;
 
 	data = get_input();
+	list = g_library_list;
 	res = [];
-	i = 0;
-	while (i < g_library.length)
+	while (list)
 	{
-		if (match(data.author, g_library[i].author) && match(data.name, g_library[i].name) &&
-				match(data.country, g_library[i].country) &&
-				(data.year == "" || data.year == g_library[i].year) &&
-				((data.count <= g_library[i].count && data.count > 0) || data.count == ""))
-			res.push(g_library[i]);
-		i++;
+		if (match(data.author, list.data.author) && match(data.name, list.data.name) &&
+				match(data.country, list.data.country) &&
+				(data.year == "" || data.year == list.data.year) &&
+				((data.count <= list.data.count && data.count > 0) || data.count == ""))
+			res.push(list.data);
+		list = list.next;
 	}
 	return (res);
 }

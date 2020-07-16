@@ -292,6 +292,24 @@ ul {
 	margin-top: 3px;
 }
 
+#library_add_book {
+	border: 4px dashed #999;
+	cursor: pointer;
+}
+
+#add_book_hr1, #add_book_hr2 {
+	height: 60px;
+	width: 5px;
+	color: #999;
+	background: #999;
+	position: absolute;
+	border: none;
+}
+
+#add_book_hr1 {
+	transform: rotate(90deg);
+}
+
 .lib_book_author:before {
 	content: "Автор: ";
 }

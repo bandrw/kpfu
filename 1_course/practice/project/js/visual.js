@@ -53,12 +53,16 @@ function create_result() // создаем блок result
 
 function show_book_info()
 {
-	if (g_library)
+	let list;
+
+	list = g_library_list;
+	if (list)
 	{
-		book = g_library[this.value];
-		if (book)
-			alert("Название: " + book.name + "\nАвтор: " + book.author + "\nСтрана: " +
-				book.country + "\nГод: " + book.year + "\nКоличество: " + book.count);
+		while (list.data.id != this.value)
+			list = list.next;
+		if (list.data)
+			alert("Название: " + list.data.name + "\nАвтор: " + list.data.author + "\nСтрана: " +
+				list.data.country + "\nГод: " + list.data.year + "\nКоличество: " + list.data.count);
 	}
 }
 
@@ -145,19 +149,19 @@ function scroll_to_library()
 	let goal;
 	let src;
 
-	currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+	prev = window.pageYOffset || document.documentElement.scrollTop;
 	goal = document.getElementById("library_href").offsetTop;
-	if (goal < currentScroll)
+	if (goal < prev)
 	{
 		scroll(0, goal);
 		return;
 	}
 	start = Date.now();
-	scr = 3;
+	scr = 5;
 	timer = setInterval(function() {
 		timePassed = Date.now() - start;
 		currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-		if (currentScroll == goal)
+		if (currentScroll == goal || prev > currentScroll)
 			clearInterval(timer);
 		if (timePassed > 100)
 			scr *= 1.01;
@@ -168,10 +172,10 @@ function scroll_to_library()
 		if (scr < 1)
 			scr = 1;
 		scroll(0, currentScroll + scr);
+		prev = currentScroll;
 	}, 1);
 }
 
 document.getElementById("main_form").style.transition = g_transition + "s ease";
-show_library();
 document.getElementById("lib_request_btn").onclick = show_result;
 document.getElementById("library_href").onclick = scroll_to_library;
