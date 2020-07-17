@@ -295,7 +295,52 @@ ul {
 
 #library_add_book {
 	border: 4px dashed #999;
+	padding: 0 20px;
+}
+
+#add_book_layer1 {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	cursor: pointer;
+}
+
+#add_book_layer2 {
+	display: none;
+	padding-bottom: 30px;
+}
+
+#add_book_layer2 > label {
+	position: absolute;
+	left: 20px;
+	color: #777;
+	font-size: 0.8em;
+	margin-top: 14px;
+}
+
+#add_book_layer2 > input {
+	outline: none;
+	border: 0;
+	border-bottom: 2px dashed #ccc;
+	font-size: 1em;
+	background: transparent;
+	margin: 2px 0;
+	width: 100%;
+	text-align: right;
+	position: relative;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+#add_book_author {
+	padding-left: 55px;
+}
+
+#add_book_name {
+	padding-left: 85px;
 }
 
 #add_book_hr1, #add_book_hr2 {
@@ -307,8 +352,45 @@ ul {
 	border: none;
 }
 
+#add_button_hr1, #add_button_hr2 {
+	height: 17px;
+	width: 3px;
+	color: #303030;
+	background: #303030;
+	position: absolute;
+	border: none;
+}
+
+#add_button_hr2 {
+	transform: rotate(90deg);
+}
+
 #add_book_hr1 {
 	transform: rotate(90deg);
+}
+
+#lib_book_add_button {
+	width: 30px;
+	height: 30px;
+	border: 2px solid #303030;
+	border-radius: 5px;
+	position: absolute;
+	bottom: 6px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+#lib_book_add_button:hover {
+	background: #303030;
+}
+
+#lib_book_add_button:hover hr {
+	background: #fffdee;
 }
 
 .library_book_rm {
@@ -322,7 +404,7 @@ ul {
 	background-size: cover;
 }
 
-.lib_book_author:before {
+.lib_book_author:before{
 	content: "Автор: ";
 }
 

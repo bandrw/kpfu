@@ -64,12 +64,25 @@ function get_library_book_data()
 	let data;
 
 	data = {
-		author: "А.Б. Test",
-		name: "test",
-		country: "test",
-		year: 2000,
-		count: 120,
+		author: document.getElementById("add_book_author").value,
+		name: document.getElementById("add_book_name").value,
+		country: document.getElementById("add_book_country").value,
+		year: document.getElementById("add_book_year").value,
+		count: document.getElementById("add_book_count").value,
 		id: ft_list_size(g_library)
+	}
+	if (data.author == "" || data.name == "" || data.country == ""
+		|| data.year == "" || data.count == "")
+	{
+		data = null;
+	}
+	else
+	{
+		document.getElementById("add_book_author").value = "";
+		document.getElementById("add_book_name").value = "";
+		document.getElementById("add_book_country").value = "";
+		document.getElementById("add_book_year").value = "";
+		document.getElementById("add_book_count").value = "";
 	}
 	return (data);
 }
@@ -77,22 +90,31 @@ function get_library_book_data()
 function add_library_book()
 {
 	let library_books;
-	let i;
 	let data;
+	let i;
 
 	data = get_library_book_data();
+	if (data == null)
+		return;
 	addBook([data.author, data.name, data.country, data.year, data.count, data.id]);
+	document.getElementById("add_book_layer1").style.display = "flex";
+	document.getElementById("add_book_layer2").style.display = "none";
 	library_books = document.getElementsByClassName("library_book");
 	i = 1;
 	while (library_books[i] && library_books[i].children[1].innerHTML < data.author)
-	{
-		console.log(library_books[i].firstChild.innerHTML);
 		i++;
-	}
 	if (library_books[i])
 		library_books[i].before(create_library_book(data));
 	else
 		document.getElementById("library_content").appendChild(create_library_book(data));
+}
+
+function show_library_book_input()
+{
+	console.log(2);
+	document.getElementById("add_book_layer1").style.display = "none";
+	document.getElementById("add_book_layer2").style.display = "block";
+	document.getElementById("lib_book_add_button").onclick = add_library_book;
 }
 
 function show_library() // выводит имеющиеся книги из g_library в #library_content
@@ -150,5 +172,5 @@ addBook(["Александр Дюма", "Три мушкетёра", "Франц
 addBook(["И.А. Гончаров", "Обломов", "Россия", 1858]);
 addBook(["М.А. Шолохов", "Тихий Дон", "Россия", 1940]);
 addBook(["Р.Д. Брэдбери", "451 градус по Фаренгейту", "Англия", 1953]);
-document.getElementById("library_add_book").onclick = add_library_book;
+document.getElementById("add_book_layer1").onclick = show_library_book_input;
 show_library();
