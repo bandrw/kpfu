@@ -67,7 +67,8 @@ function get_books() // возвращает массив подобранных
 		if (match(data.author, list.data.author) && match(data.name, list.data.name) &&
 				match(data.country, list.data.country) &&
 				(data.year == "" || data.year == list.data.year) &&
-				((data.count <= list.data.count && data.count > 0) || data.count == ""))
+				((data.count <= list.data.count && data.count > 0) || data.count == "") &&
+				list.data.count > 0)
 			res.push(list.data);
 		list = list.next;
 	}

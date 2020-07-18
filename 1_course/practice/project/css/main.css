@@ -299,6 +299,7 @@ ul {
 #library_add_book {
 	border: 4px dashed #999;
 	padding: 0 20px;
+	min-height: 270px;
 }
 
 #add_book_layer1 {
@@ -313,7 +314,7 @@ ul {
 
 #add_book_layer2 {
 	display: none;
-	padding-bottom: 30px;
+	padding: 10px 0 30px;
 }
 
 #add_book_layer2 > label {
@@ -330,7 +331,7 @@ ul {
 	border-bottom: 2px dashed #ccc;
 	font-size: 1em;
 	background: transparent;
-	margin: 2px 0;
+	margin: 3px 0;
 	width: 100%;
 	text-align: right;
 	position: relative;
@@ -437,6 +438,24 @@ ul {
 
 .lib_book_count:before {
 	content: "Количество: ";
+}
+
+.lib_book_control {
+	position: absolute;
+	width: 80px;
+	height: 30px;
+	top: 10px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.lib_book_control_dec, .lib_book_control_inc {
+	height: 100%;
+	width: 45%;
+	display: block;
+	border: 1px solid red;
+	position: relative;
+	cursor: pointer;
 }
 
 .books_list::-webkit-scrollbar {

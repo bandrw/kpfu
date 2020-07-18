@@ -29,6 +29,43 @@ function library_book_rm()
 	this.parentElement.remove();
 }
 
+function list_compare_id(ref, elem)
+{
+	if (elem && elem.id == ref)
+		return (0);
+	else
+		return (1);
+}
+
+function library_book_decrem()
+{
+	let id;
+	let begin_list;
+
+	begin_list = JSON.parse(localStorage.getItem("library"));
+	id = this.parentElement.parentElement.value;
+	elem = ft_list_find(begin_list, id, list_compare_id);
+	if (elem.data.count > 0)
+	{
+		elem.data.count--;
+		this.parentElement.parentElement.children[5].innerHTML = elem.data.count;
+		localStorage.setItem("library", JSON.stringify(begin_list));
+	}
+}
+
+function library_book_increm()
+{
+	let id;
+	let begin_list;
+
+	begin_list = JSON.parse(localStorage.getItem("library"));
+	id = this.parentElement.parentElement.value;
+	elem = ft_list_find(begin_list, id, list_compare_id);
+	elem.data.count++;
+	this.parentElement.parentElement.children[5].innerHTML = elem.data.count;
+	localStorage.setItem("library", JSON.stringify(begin_list));
+}
+
 function create_library_book(data)
 {
 	let div;
@@ -36,6 +73,7 @@ function create_library_book(data)
 	let elem;
 
 	div = document.createElement("div");
+	div.value = data.id;
 	elem = document.createElement("div");
 	elem.className = "library_book_rm";
 	elem.value = data.id;
@@ -62,6 +100,17 @@ function create_library_book(data)
 	span.className = "lib_book_count";
 	span.innerHTML = data.count;
 	div.appendChild(span);
+	elem = document.createElement("div");
+	elem.className = "lib_book_control";
+	span = document.createElement("span");
+	span.onclick = library_book_decrem;
+	span.className = "lib_book_control_dec";
+	elem.appendChild(span);
+	span = document.createElement("span");
+	span.onclick = library_book_increm;
+	span.className = "lib_book_control_inc";
+	elem.appendChild(span);
+	div.appendChild(elem);
 	return (div);
 }
 
@@ -75,7 +124,7 @@ function get_library_book_data()
 		country: document.getElementById("add_book_country").value,
 		year: document.getElementById("add_book_year").value,
 		count: document.getElementById("add_book_count").value,
-		id: ft_list_size(localStorage.getItem("library"))
+		id: ft_list_size(JSON.parse(localStorage.getItem("library")))
 	}
 	if (data.author == "" || data.name == "" || data.country == ""
 		|| data.year == "" || data.count == "")
@@ -152,7 +201,7 @@ function addBook(book_info)
 		name: book_info[1],
 		country: book_info[2],
 		year: book_info[3],
-		count: book_info[4] >= 0 ? book_info[4] : Math.floor(Math.random() * 100) + 1,
+		count: book_info[4] >= 0 ? book_info[4] : Math.floor(Math.random() * 100),
 		id: ft_list_size(library_list)
 	};
 	library_list = ft_sorted_list_insert(library_list, book);

@@ -1,4 +1,4 @@
-let g_transition = 0.3;
+let g_transition = 1.3;
 
 function disable_buttons()
 {
@@ -47,7 +47,8 @@ function create_result() // создаем блок result
 	elem.style.marginLeft = "-" + (elem.offsetWidth / 2 + 20) + "px";
 	result.style.transform = "scale(0.8)";
 	document.getElementById("container").appendChild(result);
-	result.style.marginLeft = (document.getElementById("main_form").offsetWidth / 2 + 20) + "px";
+	result.style.marginLeft = (document.getElementById("main_form").offsetWidth
+		/ 2 + 20) + "px";
 	result.style.transform = "scale(1)";
 }
 
@@ -61,8 +62,9 @@ function show_book_info()
 		while (list.data.id != this.value)
 			list = list.next;
 		if (list.data)
-			alert("Название: " + list.data.name + "\nАвтор: " + list.data.author + "\nСтрана: " +
-				list.data.country + "\nГод: " + list.data.year + "\nКоличество: " + list.data.count);
+			alert("Название: " + list.data.name + "\nАвтор: " +
+				list.data.author + "\nСтрана: " + list.data.country +
+				"\nГод: " + list.data.year + "\nКоличество: " + list.data.count);
 	}
 }
 
@@ -129,7 +131,8 @@ function show_books() // создаем span и ul и анимируем пер�
 			elem.style.marginLeft = null;
 			ul.style.marginLeft = null;
 		}, 0);
-	document.getElementById("result").style.height = elem.offsetHeight + 62 + ul.offsetHeight + 30 + "px";
+	document.getElementById("result").style.height = elem.offsetHeight + 62 +
+		ul.offsetHeight + 30 + "px";
 }
 
 function show_result() // вывод блока result
@@ -163,8 +166,8 @@ function scroll_to_library()
 		currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 		if (currentScroll == goal || prev > currentScroll)
 			clearInterval(timer);
-		if (timePassed > 100)
-			scr *= 1.01;
+		if (timePassed > 80)
+			scr *= 1.015;
 		if (goal - currentScroll < scr)
 			scr = goal - currentScroll;
 		if (goal - currentScroll < 100)
@@ -177,5 +180,10 @@ function scroll_to_library()
 }
 
 document.getElementById("main_form").style.transition = g_transition + "s ease";
-document.getElementById("lib_request_btn").onclick = show_result;
 document.getElementById("library_href").onclick = scroll_to_library;
+document.getElementById("lib_request_btn").onclick = show_result;
+document.getElementById("author_input").onchange = show_result;
+document.getElementById("name_input").onchange = show_result;
+document.getElementById("country_input").onchange = show_result;
+document.getElementById("year_input").onchange = show_result;
+document.getElementById("count_input").onchange = show_result;

@@ -46,3 +46,13 @@ function ft_sorted_list_insert(list, data)
 	}
 	return (begin_list);
 }
+
+function ft_list_find(list, data_ref, cmp)
+{
+	while (list)
+	{
+		if (cmp(data_ref, list.data) == 0)
+			return (list);
+		list = list.next;
+	}
+}
