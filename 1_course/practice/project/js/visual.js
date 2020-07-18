@@ -55,7 +55,7 @@ function show_book_info()
 {
 	let list;
 
-	list = g_library.next;
+	list = JSON.parse(localStorage.getItem("library"));
 	if (list)
 	{
 		while (list.data.id != this.value)

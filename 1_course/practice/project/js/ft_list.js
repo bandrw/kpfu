@@ -22,12 +22,12 @@ function ft_list_size(list)
 	return (i);
 }
 
-function ft_sorted_list_insert(begin_list, data)
+function ft_sorted_list_insert(list, data)
 {
-	let list;
 	let prev;
+	let begin_list;
 
-	list = begin_list.next;
+	begin_list = list;
 	while (list && (data.author > list.data.author))
 	{
 		prev = list;
@@ -42,6 +42,7 @@ function ft_sorted_list_insert(begin_list, data)
 	{
 		prev = ft_create_elem(data);
 		prev.next = list;
-		begin_list.next = prev;
+		begin_list = prev;
 	}
+	return (begin_list);
 }

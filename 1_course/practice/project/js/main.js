@@ -60,7 +60,7 @@ function get_books() // возвращает массив подобранных
 		return (0);
 	}
 	data = get_input();
-	list = JSON.parse(localStorage.getItem("library")).next;
+	list = JSON.parse(localStorage.getItem("library"));
 	res = [];
 	while (list)
 	{

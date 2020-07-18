@@ -1,9 +1,6 @@
-let g_library;
-
-g_library = {};
-
 function library_book_rm()
 {
+	let begin_list;
 	let list;
 	let prev;
 
@@ -12,7 +9,8 @@ function library_book_rm()
 		console.error("Can't get library in library_book_rm");
 		return;
 	}
-	list = JSON.parse(localStorage.getItem("library")).next;
+	list = JSON.parse(localStorage.getItem("library"));
+	begin_list = list;
 	while (list)
 	{
 		if (list.data.id == this.value)
@@ -20,13 +18,14 @@ function library_book_rm()
 			if (prev)
 				prev.next = list.next;
 			else
-				g_library.next = list.next;
+				begin_list = list.next;
+			list = 0;
 		}
 		prev = list;
 		list = list.next;
 	}
 	localStorage.removeItem("library");
-	localStorage.setItem("library", JSON.stringify(list));
+	localStorage.setItem("library", JSON.stringify(begin_list));
 	this.parentElement.remove();
 }
 
@@ -76,7 +75,7 @@ function get_library_book_data()
 		country: document.getElementById("add_book_country").value,
 		year: document.getElementById("add_book_year").value,
 		count: document.getElementById("add_book_count").value,
-		id: ft_list_size(g_library)
+		id: ft_list_size(localStorage.getItem("library"))
 	}
 	if (data.author == "" || data.name == "" || data.country == ""
 		|| data.year == "" || data.count == "")
@@ -123,7 +122,7 @@ function show_library_book_input()
 	document.getElementById("lib_book_add_button").onclick = add_library_book;
 }
 
-function show_library() // выводит имеющиеся книги из g_library в #library_content
+function show_library()
 {
 	let list;
 	let div;
@@ -133,7 +132,7 @@ function show_library() // выводит имеющиеся книги из g_l
 		console.error("Can't get library in show_library");
 		return;
 	}
-	list = JSON.parse(localStorage.getItem("library")).next;
+	list = JSON.parse(localStorage.getItem("library"));
 	while (list)
 	{
 		div = create_library_book(list.data);
@@ -145,21 +144,23 @@ function show_library() // выводит имеющиеся книги из g_l
 function addBook(book_info)
 {
 	let book;
+	let library_list;
 
+	library_list = JSON.parse(localStorage.getItem("library"));
 	book = {
 		author: book_info[0],
 		name: book_info[1],
 		country: book_info[2],
 		year: book_info[3],
 		count: book_info[4] >= 0 ? book_info[4] : Math.floor(Math.random() * 100) + 1,
-		id: ft_list_size(g_library)
-	}
-	ft_sorted_list_insert(g_library, book);
+		id: ft_list_size(library_list)
+	};
+	library_list = ft_sorted_list_insert(library_list, book);
+	localStorage.setItem("library", JSON.stringify(library_list));
 }
 
-if (!localStorage.getItem("library"))
+function library_restore_books()
 {
-	console.log("creating library");
 	addBook(["А.С. Пушкин", "Дубровский", "Россия", 1842]);
 	addBook(["А.С. Пушкин", "Капитанская дочка", "Россия", 1836]);
 	addBook(["А.С. Пушкин", "Евгений Онегин", "Россия", 1837]);
@@ -186,9 +187,16 @@ if (!localStorage.getItem("library"))
 	addBook(["И.А. Гончаров", "Обломов", "Россия", 1858]);
 	addBook(["М.А. Шолохов", "Тихий Дон", "Россия", 1940]);
 	addBook(["Р.Д. Брэдбери", "451 градус по Фаренгейту", "Англия", 1953]);
-	document.getElementById("add_book_layer1").onclick = show_library_book_input;
-	localStorage.setItem("library", JSON.stringify(g_library));
 }
-else
-	console.log("library exists");
+
+if (!localStorage.getItem("library"))
+	library_restore_books();
 show_library();
+document.getElementById("add_book_layer1").onclick = show_library_book_input;
+document.getElementById("library_books_restore").onclick = function(){
+	localStorage.removeItem("library");
+	library_restore_books();
+	while (document.getElementsByClassName("library_book").length > 1)
+		document.getElementsByClassName("library_book")[1].remove();
+	show_library();
+};
