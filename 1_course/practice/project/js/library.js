@@ -7,7 +7,12 @@ function library_book_rm()
 	let list;
 	let prev;
 
-	list = g_library.next;
+	if (!localStorage.getItem("library"))
+	{
+		console.error("Can't get library in library_book_rm");
+		return;
+	}
+	list = JSON.parse(localStorage.getItem("library")).next;
 	while (list)
 	{
 		if (list.data.id == this.value)
@@ -20,6 +25,8 @@ function library_book_rm()
 		prev = list;
 		list = list.next;
 	}
+	localStorage.removeItem("library");
+	localStorage.setItem("library", JSON.stringify(list));
 	this.parentElement.remove();
 }
 
@@ -111,7 +118,6 @@ function add_library_book()
 
 function show_library_book_input()
 {
-	console.log(2);
 	document.getElementById("add_book_layer1").style.display = "none";
 	document.getElementById("add_book_layer2").style.display = "block";
 	document.getElementById("lib_book_add_button").onclick = add_library_book;
@@ -122,7 +128,12 @@ function show_library() // выводит имеющиеся книги из g_l
 	let list;
 	let div;
 
-	list = g_library.next;
+	if (!localStorage.getItem("library"))
+	{
+		console.error("Can't get library in show_library");
+		return;
+	}
+	list = JSON.parse(localStorage.getItem("library")).next;
 	while (list)
 	{
 		div = create_library_book(list.data);
@@ -146,31 +157,38 @@ function addBook(book_info)
 	ft_sorted_list_insert(g_library, book);
 }
 
-addBook(["А.С. Пушкин", "Дубровский", "Россия", 1842]);
-addBook(["А.С. Пушкин", "Капитанская дочка", "Россия", 1836]);
-addBook(["А.С. Пушкин", "Евгений Онегин", "Россия", 1837]);
-addBook(["М.А. Булгаков", "Собачье сердце", "Россия", 1925]);
-addBook(["М.А. Булгаков", "Мастер и Маргарита", "Россия", 1940]);
-addBook(["И.С. Тургенев", "Отцы и дети", "Россия", 1861]);
-addBook(["И.С. Тургенев", "Муму", "Россия", 1852]);
-addBook(["Л.Н. Толстой", "Воскресение", "Россия", 1866]);
-addBook(["Л.Н. Толстой", "Война и мир", "Россия", 1868]);
-addBook(["Л.Н. Толстой", "Анна Каренина", "Россия", 1877]);
-addBook(["Л.Н. Толстой", "Детство. Отрочество. Юность", "Россия", 1857]);
-addBook(["Н.В. Гоголь", "Ревизор", "Россия", 1836]);
-addBook(["Н.В. Гоголь", "Тарас и Бульба", "Россия", 1842]);
-addBook(["Максим Горький", "Старуха Изергиль", "Россия", 1894]);
-addBook(["Ф.М. Достоевский", "Преступление и наказание", "Россия", 1866]);
-addBook(["Ф.М. Достоевский", "Игрок", "Россия", 1866]);
-addBook(["А.С. Грибоедов", "Горе от ума", "Россия", 1828]);
-addBook(["М.Ю. Лермонтов", "Герой нашего времени", "Россия", 1840]);
-addBook(["Даниель Дефо", "Робинзон Крузо", "Англия", 1719]);
-addBook(["А.П. Чехов", "Рассказы", "Россия", 1885]);
-addBook(["А.П. Чехов", "Чайка", "Россия", 1896]);
-addBook(["А.П. Чехов", "Три сестры", "Россия", 1900]);
-addBook(["Александр Дюма", "Три мушкетёра", "Франция", 1844]);
-addBook(["И.А. Гончаров", "Обломов", "Россия", 1858]);
-addBook(["М.А. Шолохов", "Тихий Дон", "Россия", 1940]);
-addBook(["Р.Д. Брэдбери", "451 градус по Фаренгейту", "Англия", 1953]);
-document.getElementById("add_book_layer1").onclick = show_library_book_input;
+if (!localStorage.getItem("library"))
+{
+	console.log("creating library");
+	addBook(["А.С. Пушкин", "Дубровский", "Россия", 1842]);
+	addBook(["А.С. Пушкин", "Капитанская дочка", "Россия", 1836]);
+	addBook(["А.С. Пушкин", "Евгений Онегин", "Россия", 1837]);
+	addBook(["М.А. Булгаков", "Собачье сердце", "Россия", 1925]);
+	addBook(["М.А. Булгаков", "Мастер и Маргарита", "Россия", 1940]);
+	addBook(["И.С. Тургенев", "Отцы и дети", "Россия", 1861]);
+	addBook(["И.С. Тургенев", "Муму", "Россия", 1852]);
+	addBook(["Л.Н. Толстой", "Воскресение", "Россия", 1866]);
+	addBook(["Л.Н. Толстой", "Война и мир", "Россия", 1868]);
+	addBook(["Л.Н. Толстой", "Анна Каренина", "Россия", 1877]);
+	addBook(["Л.Н. Толстой", "Детство. Отрочество. Юность", "Россия", 1857]);
+	addBook(["Н.В. Гоголь", "Ревизор", "Россия", 1836]);
+	addBook(["Н.В. Гоголь", "Тарас и Бульба", "Россия", 1842]);
+	addBook(["Максим Горький", "Старуха Изергиль", "Россия", 1894]);
+	addBook(["Ф.М. Достоевский", "Преступление и наказание", "Россия", 1866]);
+	addBook(["Ф.М. Достоевский", "Игрок", "Россия", 1866]);
+	addBook(["А.С. Грибоедов", "Горе от ума", "Россия", 1828]);
+	addBook(["М.Ю. Лермонтов", "Герой нашего времени", "Россия", 1840]);
+	addBook(["Даниель Дефо", "Робинзон Крузо", "Англия", 1719]);
+	addBook(["А.П. Чехов", "Рассказы", "Россия", 1885]);
+	addBook(["А.П. Чехов", "Чайка", "Россия", 1896]);
+	addBook(["А.П. Чехов", "Три сестры", "Россия", 1900]);
+	addBook(["Александр Дюма", "Три мушкетёра", "Франция", 1844]);
+	addBook(["И.А. Гончаров", "Обломов", "Россия", 1858]);
+	addBook(["М.А. Шолохов", "Тихий Дон", "Россия", 1940]);
+	addBook(["Р.Д. Брэдбери", "451 градус по Фаренгейту", "Англия", 1953]);
+	document.getElementById("add_book_layer1").onclick = show_library_book_input;
+	localStorage.setItem("library", JSON.stringify(g_library));
+}
+else
+	console.log("library exists");
 show_library();

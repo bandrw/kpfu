@@ -22,16 +22,6 @@ function ft_list_size(list)
 	return (i);
 }
 
-function ft_list_push_back(list, data)
-{
-	if (list)
-	{
-		while (list.next)
-			list = list.next;
-		list.next = ft_create_elem(data);
-	}
-}
-
 function ft_sorted_list_insert(begin_list, data)
 {
 	let list;

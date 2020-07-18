@@ -343,6 +343,18 @@ ul {
 	padding-left: 85px;
 }
 
+#add_book_country {
+	padding-left: 65px;
+}
+
+#add_book_year {
+	padding-left: 35px;
+}
+
+#add_book_count {
+	padding-left: 100px;
+}
+
 #add_book_hr1, #add_book_hr2 {
 	height: 60px;
 	width: 5px;

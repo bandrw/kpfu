@@ -54,8 +54,13 @@ function get_books() // возвращает массив подобранных
 	let res;
 	let list;
 
+	if (!localStorage.getItem("library"))
+	{
+		console.error("Can't get library in get_books");
+		return (0);
+	}
 	data = get_input();
-	list = g_library.next;
+	list = JSON.parse(localStorage.getItem("library")).next;
 	res = [];
 	while (list)
 	{
