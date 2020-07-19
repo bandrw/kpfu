@@ -55,4 +55,5 @@ function ft_list_find(list, data_ref, cmp)
 			return (list);
 		list = list.next;
 	}
+	return (null);
 }

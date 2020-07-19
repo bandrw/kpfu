@@ -15,18 +15,22 @@ function disable_buttons()
 function close_result() // закрывает result
 {
 	let result;
+	let mainForm;
 
 	disable_buttons();
+	mainForm = document.getElementById("main_form");
 	result = document.getElementById("result");
 	if (result == null)
 	{
-		console.log("Error in close_result");
+		console.error("Error in close_result");
 		return;
 	}
-	document.getElementById("main_form").style.marginLeft = null;
-	result.style.transform = "scale(0.8)";
-	result.style.marginLeft = null;
+	mainForm.style.transform = "translateX(" + (mainForm.offsetWidth / 2 + 10) + "px)";
+	result.style.transform = "scale(0.8) translateX(-" + (mainForm.offsetWidth
+		/ 2 + 10) + "px)";
 	setTimeout(function() {
+		mainForm.style.transition = "0s";
+		mainForm.style.transform = "translateX(0)";
 		result.remove();
 	}, g_transition * 1000);
 }
@@ -43,13 +47,16 @@ function create_result() // создаем блок result
 	elem.id = "close_res_btn";
 	elem.onclick = close_result;
 	result.appendChild(elem);
-	elem = document.getElementById("main_form"); // анимация появления result
-	elem.style.marginLeft = "-" + (elem.offsetWidth / 2 + 20) + "px";
-	result.style.transform = "scale(0.8)";
-	document.getElementById("container").appendChild(result);
-	result.style.marginLeft = (document.getElementById("main_form").offsetWidth
-		/ 2 + 20) + "px";
-	result.style.transform = "scale(1)";
+	elem = document.getElementById("main_form");
+	elem.style.transition = "0s";
+	elem.style.transform = "translateX(" + (elem.offsetWidth / 2 + 10) + "px)";
+	result.style.transform = "translateX(-" + (elem.offsetWidth / 2 + 10) + "px) scale(0.8)";
+	document.getElementById("main_form").after(result);
+	setTimeout(function(){
+		result.style.transform = "translateX(0) scale(1)";
+		elem.style.transition = g_transition + "s ease";
+		elem.style.transform = "translateX(0)";
+	}, 0);
 }
 
 function show_book_info()
@@ -101,38 +108,44 @@ function ul_handle(ul, elem)
 
 function show_books() // создаем span и ul и анимируем переходы
 {
+	let transition_px;
 	let elem;
 	let ul;
+	let prev_ul;
+	let prev_span;
+	let container;
 
+	transition = document.getElementById("result").offsetWidth;
 	elem = document.createElement("span");
 	elem.style.transition = g_transition + "s ease";
 	elem.className = "result_span";
 	ul = document.createElement("ul");
-	ul.style.transition = g_transition + "s ease";
 	ul.className = "books_list";
 	ul_handle(ul, elem);
+	container = document.createElement("div");
 	if (document.getElementsByClassName("result_span").length > 0)
 	{
-		elem.style.marginLeft = document.getElementById("result").offsetWidth + "px";
-		ul.style.marginLeft = document.getElementById("result").offsetWidth + "px";
-		document.getElementsByClassName("books_list")[0].style.marginLeft =
-			"-" + document.getElementById("result").offsetWidth + "px";
-		document.getElementsByClassName("result_span")[0].style.marginLeft =
-			"-" + document.getElementById("result").offsetWidth + "px";
+		container.style.transform = "translateX(" + transition + "px)";
+		document.getElementById("result").children[1].style.transform = "translateX(-"
+			+ transition + "px)";
+		setTimeout(function(){
+			container.style.transition = g_transition + "s ease";
+			container.style.transform = null;
+		}, 0);
 		setTimeout(function() {
-			document.getElementsByClassName("books_list")[0].remove();
-			document.getElementsByClassName("result_span")[0].remove();
+			document.getElementById("result").children[1].remove();
 		}, g_transition * 1000);
 	}
-	document.getElementById("result").appendChild(elem);
-	document.getElementById("result").appendChild(ul);
+	document.getElementById("result").appendChild(container);
+	document.getElementById("result").lastChild.appendChild(elem);
+	document.getElementById("result").lastChild.appendChild(ul);
 	if (document.getElementsByClassName("result_span").length > 1)
 		setTimeout(function() {
-			elem.style.marginLeft = null;
-			ul.style.marginLeft = null;
+			elem.style.transform = "translateX(0)";
+			ul.style.transform = "translateX(0)";
 		}, 0);
 	document.getElementById("result").style.height = elem.offsetHeight + 62 +
-		ul.offsetHeight + 30 + "px";
+		ul.scrollHeight + 30 + "px";
 }
 
 function show_result() // вывод блока result
@@ -179,11 +192,5 @@ function scroll_to_library()
 	}, 1);
 }
 
-document.getElementById("main_form").style.transition = g_transition + "s ease";
 document.getElementById("library_href").onclick = scroll_to_library;
 document.getElementById("lib_request_btn").onclick = show_result;
-document.getElementById("author_input").onchange = show_result;
-document.getElementById("name_input").onchange = show_result;
-document.getElementById("country_input").onchange = show_result;
-document.getElementById("year_input").onchange = show_result;
-document.getElementById("count_input").onchange = show_result;

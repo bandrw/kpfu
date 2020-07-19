@@ -23,10 +23,9 @@ ul {
 	align-items: center;
 	max-width: 1100px;
 	min-height: 100vh;
-	max-height: 1200px;
 	position: relative;
-	perspective: 1000px;
-	perspective-origin: 850px 0;
+	flex-wrap: wrap;
+	padding-bottom: 60px;
 }
 
 #book_logo {
@@ -40,7 +39,6 @@ ul {
 #main_form {
 	width: 500px;
 	padding: 20px 0;
-	border: 1px solid #303030;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -48,7 +46,7 @@ ul {
 	box-shadow: 0 10px 30px #999;
 	border-radius: 5px;
 	z-index: 100;
-	position: absolute;
+	margin: 10px;
 }
 
 #main_form > div {
@@ -107,33 +105,32 @@ ul {
 #result {
 	width: 500px;
 	max-height: 572px;
-	border: 1px solid #303030;
-	display: flex;
-	flex-direction: column;
 	background: #fffdee;
 	box-shadow: 0 10px 50px #999;
 	border-radius: 5px;
-	padding-top: 30px;
-	position: absolute;
+	padding: 30px 0;
 	z-index: 50;
 	overflow: hidden;
+	margin: 10px;
+}
+
+#result > div {
+	max-height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .result_span {
-	position: absolute;
 	text-align: center;
 	width: 100%;
 }
 
 .books_list {
-	position: absolute;
 	text-align: center;
 	width: 100%;
-	margin-top: 53px;
-	max-height: 460px;
-	overflow-x: none;
 	overflow-y: scroll;
 	padding-left: 10px;
+	margin-top: 20px;
 }
 
 .books_list_li {
@@ -319,7 +316,7 @@ ul {
 
 #add_book_layer2 > label {
 	position: absolute;
-	left: 20px;
+	left: 25px;
 	color: #777;
 	font-size: 0.8em;
 	margin-top: 14px;
