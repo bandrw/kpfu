@@ -297,7 +297,7 @@ ul {
 }
 
 #library_add_book {
-	border: 4px dashed #999;
+	border: 3px dashed #999;
 	padding: 0 20px;
 	min-height: 270px;
 }
@@ -314,7 +314,7 @@ ul {
 
 #add_book_layer2 {
 	display: none;
-	padding: 10px 0;
+	padding: 10px 5px;
 }
 
 #add_book_layer2 > label {
@@ -370,6 +370,34 @@ ul {
 
 #add_book_hr1 {
 	transform: rotate(90deg);
+}
+
+#add_book_close {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	cursor: pointer;
+	display: block;
+	width: 18px;
+	height: 18px;
+}
+
+#add_book_close:after, #add_book_close:before {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 18px;
+	height: 3px;
+	background: #777;
+	top: 9px;
+}
+
+#add_book_close:before {
+	transform: rotate(45deg);
+}
+
+#add_book_close:after {
+	transform: rotate(-45deg);
 }
 
 #lib_book_add_button {

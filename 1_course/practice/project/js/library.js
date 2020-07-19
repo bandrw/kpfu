@@ -26,7 +26,7 @@ function library_book_rm()
 	}
 	localStorage.removeItem("library");
 	localStorage.setItem("library", JSON.stringify(begin_list));
-	this.parentElement.remove();
+	this.parentElement.parentElement.remove();
 }
 
 function list_compare_id(ref, elem)
@@ -162,7 +162,34 @@ function add_library_book()
 
 	data = get_library_book_data();
 	if (data == null)
+	{
+		if (document.getElementById("add_book_author").value == "")
+			document.getElementById("add_book_author").style.borderColor = "red";
+		else
+			document.getElementById("add_book_author").style.borderColor = null;
+		if (document.getElementById("add_book_name").value == "")
+			document.getElementById("add_book_name").style.borderColor = "red";
+		else
+			document.getElementById("add_book_name").style.borderColor = null;
+		if (document.getElementById("add_book_country").value == "")
+			document.getElementById("add_book_country").style.borderColor = "red";
+		else
+			document.getElementById("add_book_country").style.borderColor = null;
+		if (document.getElementById("add_book_year").value == "")
+			document.getElementById("add_book_year").style.borderColor = "red";
+		else
+			document.getElementById("add_book_year").style.borderColor = null;
+		if (document.getElementById("add_book_count").value == "")
+			document.getElementById("add_book_count").style.borderColor = "red";
+		else
+			document.getElementById("add_book_count").style.borderColor = null;
 		return;
+	}
+	document.getElementById("add_book_author").style.borderColor = null;
+	document.getElementById("add_book_name").style.borderColor = null;
+	document.getElementById("add_book_country").style.borderColor = null;
+	document.getElementById("add_book_year").style.borderColor = null;
+	document.getElementById("add_book_count").style.borderColor = null;
 	addBook([data.author, data.name, data.country, data.year, data.count, data.id]);
 	document.getElementById("add_book_layer1").style.display = "flex";
 	document.getElementById("add_book_layer2").style.display = "none";
@@ -178,8 +205,12 @@ function add_library_book()
 
 function show_library_book_input()
 {
+	document.getElementById("add_book_close").onclick = function(){
+		document.getElementById("add_book_layer1").style.display = "flex";
+		document.getElementById("add_book_layer2").style.display = "none";
+	};
 	document.getElementById("add_book_layer1").style.display = "none";
-	document.getElementById("add_book_layer2").style.display = "block";
+	document.getElementById("add_book_layer2").style.display = "inline-table";
 	document.getElementById("lib_book_add_button").onclick = add_library_book;
 }
 
