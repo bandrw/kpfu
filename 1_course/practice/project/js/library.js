@@ -43,12 +43,12 @@ function library_book_decrem()
 	let begin_list;
 
 	begin_list = JSON.parse(localStorage.getItem("library"));
-	id = this.parentElement.parentElement.value;
+	id = this.parentElement.parentElement.parentElement.value;
 	elem = ft_list_find(begin_list, id, list_compare_id);
 	if (elem.data.count > 0)
 	{
 		elem.data.count--;
-		this.parentElement.parentElement.children[5].innerHTML = elem.data.count;
+		this.parentElement.parentElement.parentElement.children[5].innerHTML = elem.data.count;
 		localStorage.setItem("library", JSON.stringify(begin_list));
 	}
 }
@@ -59,11 +59,38 @@ function library_book_increm()
 	let begin_list;
 
 	begin_list = JSON.parse(localStorage.getItem("library"));
-	id = this.parentElement.parentElement.value;
+	id = this.parentElement.parentElement.parentElement.value;
 	elem = ft_list_find(begin_list, id, list_compare_id);
 	elem.data.count++;
-	this.parentElement.parentElement.children[5].innerHTML = elem.data.count;
+	this.parentElement.parentElement.parentElement.children[5].innerHTML = elem.data.count;
 	localStorage.setItem("library", JSON.stringify(begin_list));
+}
+
+function create_library_book_control(div, data)
+{
+	let div_ctrl;
+	let elem;
+	let inc_dec_div;
+
+	inc_dec_div = document.createElement("div");
+	inc_dec_div.className = "lib_book_inc_dec";
+	div_ctrl = document.createElement("div");
+	div_ctrl.className = "lib_book_control";
+	span = document.createElement("span");
+	span.onclick = library_book_decrem;
+	span.className = "lib_book_control_dec";
+	inc_dec_div.appendChild(span);
+	span = document.createElement("span");
+	span.onclick = library_book_increm;
+	span.className = "lib_book_control_inc";
+	inc_dec_div.appendChild(span);
+	elem = document.createElement("div");
+	elem.className = "library_book_rm";
+	elem.value = data.id;
+	elem.onclick = library_book_rm;
+	div_ctrl.appendChild(inc_dec_div);
+	div_ctrl.appendChild(elem);
+	div.appendChild(div_ctrl);
 }
 
 function create_library_book(data)
@@ -73,12 +100,8 @@ function create_library_book(data)
 	let elem;
 
 	div = document.createElement("div");
+	create_library_book_control(div, data);
 	div.value = data.id;
-	elem = document.createElement("div");
-	elem.className = "library_book_rm";
-	elem.value = data.id;
-	elem.onclick = library_book_rm;
-	div.appendChild(elem);
 	div.className = "library_book";
 	span = document.createElement("span");
 	span.className = "lib_book_author";
@@ -100,17 +123,6 @@ function create_library_book(data)
 	span.className = "lib_book_count";
 	span.innerHTML = data.count;
 	div.appendChild(span);
-	elem = document.createElement("div");
-	elem.className = "lib_book_control";
-	span = document.createElement("span");
-	span.onclick = library_book_decrem;
-	span.className = "lib_book_control_dec";
-	elem.appendChild(span);
-	span = document.createElement("span");
-	span.onclick = library_book_increm;
-	span.className = "lib_book_control_inc";
-	elem.appendChild(span);
-	div.appendChild(elem);
 	return (div);
 }
 

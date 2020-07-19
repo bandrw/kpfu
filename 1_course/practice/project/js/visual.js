@@ -1,4 +1,4 @@
-let g_transition = 1.3;
+let g_transition = 0.3;
 
 function disable_buttons()
 {
