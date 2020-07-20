@@ -114,6 +114,7 @@ function show_books() // создаем span и ul и анимируем пер�
 	let prev_ul;
 	let prev_span;
 	let container;
+	let prev_container;
 
 	transition = document.getElementById("result").offsetWidth;
 	elem = document.createElement("span");
@@ -125,15 +126,16 @@ function show_books() // создаем span и ul и анимируем пер�
 	container = document.createElement("div");
 	if (document.getElementsByClassName("result_span").length > 0)
 	{
+		prev_container = document.getElementById("result").children[1];
+		prev_container.style.position = "absolute";
 		container.style.transform = "translateX(" + transition + "px)";
-		document.getElementById("result").children[1].style.transform = "translateX(-"
-			+ transition + "px)";
-		setTimeout(function(){
+		prev_container.style.transform = "translateX(-" + transition + "px)";
+		setTimeout(function() {
+			container.style.transform = "translate(0)";
 			container.style.transition = g_transition + "s ease";
-			container.style.transform = null;
 		}, 0);
 		setTimeout(function() {
-			document.getElementById("result").children[1].remove();
+			prev_container.remove();
 		}, g_transition * 1000);
 	}
 	document.getElementById("result").appendChild(container);
