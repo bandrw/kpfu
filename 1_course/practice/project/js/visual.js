@@ -116,36 +116,25 @@ function show_books() // создаем span и ul и анимируем пер�
 	let container;
 	let prev_container;
 
-	transition = document.getElementById("result").offsetWidth;
+	res_width = document.getElementById("result").offsetWidth;
 	elem = document.createElement("span");
-	elem.style.transition = g_transition + "s ease";
 	elem.className = "result_span";
 	ul = document.createElement("ul");
 	ul.className = "books_list";
 	ul_handle(ul, elem);
 	container = document.createElement("div");
-	if (document.getElementsByClassName("result_span").length > 0)
+	container.style.transition = g_transition + "s ease";
+	container.appendChild(elem);
+	container.appendChild(ul);
+	document.getElementById("result").appendChild(container);
+	if (document.getElementsByClassName("books_list").length > 1)
 	{
 		prev_container = document.getElementById("result").children[1];
-		prev_container.style.position = "absolute";
-		container.style.transform = "translateX(" + transition + "px)";
-		prev_container.style.transform = "translateX(-" + transition + "px)";
-		setTimeout(function() {
-			container.style.transform = "translate(0)";
-			container.style.transition = g_transition + "s ease";
-		}, 0);
+		prev_container.style.marginLeft = "-" + prev_container.offsetWidth + "px";
 		setTimeout(function() {
 			prev_container.remove();
-		}, g_transition * 1000);
+		}, 1000 * g_transition);
 	}
-	document.getElementById("result").appendChild(container);
-	document.getElementById("result").lastChild.appendChild(elem);
-	document.getElementById("result").lastChild.appendChild(ul);
-	if (document.getElementsByClassName("result_span").length > 1)
-		setTimeout(function() {
-			elem.style.transform = "translateX(0)";
-			ul.style.transform = "translateX(0)";
-		}, 0);
 	document.getElementById("result").style.height = elem.offsetHeight + 62 +
 		ul.scrollHeight + 30 + "px";
 }
