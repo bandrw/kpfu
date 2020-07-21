@@ -115,6 +115,10 @@ ul {
 	display: -webkit-inline-box;
 }
 
+#result > div {
+	width: 100%;
+}
+
 .result_span {
 	display: block;
 	text-align: center;
