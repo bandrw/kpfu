@@ -491,6 +491,7 @@ ul {
 	right: 0;
 	margin: auto;
 	background: #777;
+	border-radius: 10px;
 }
 
 .lib_book_control_inc:after {
@@ -505,6 +506,7 @@ ul {
 	right: 0;
 	margin: auto;
 	background: #777;
+	border-radius: 10px;
 }
 
 .books_list::-webkit-scrollbar {
