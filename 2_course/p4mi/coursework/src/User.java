@@ -1,10 +1,10 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.sql.ResultSet;
 
 public class User
 {
-	private final boolean isAuthorized;
-	public String name;
+	public int				id;
+	public String			name;
+	private final boolean	isAuthorized;
 
 	User(String login, String password)
 	{
@@ -13,26 +13,23 @@ public class User
 
 	private boolean authorize(String login, String password)
 	{
-		String line;
-		String[] arr;
-		BufferedReader reader;
-
+		ResultSet resultSet = Database.getUsers();
 		try
 		{
-			reader = new BufferedReader(new FileReader("src/users.txt"));
-			while ((line = reader.readLine()) != null)
+			while (resultSet.next())
 			{
-				arr = line.split(",");
-				if (arr.length == 2 && arr[0].equals(login) && arr[1].equals(password))
+				if (resultSet.getString("login").equals(login) && resultSet.getString("password").equals(password))
 				{
-					this.name = "Андрей Балашов";
+					this.id = resultSet.getInt("id");
+					this.name = resultSet.getString("name");
 					return (true);
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			System.err.println(e);
+			System.err.println("[authorize]");
+			e.printStackTrace(System.err);
 		}
 		return (false);
 	}

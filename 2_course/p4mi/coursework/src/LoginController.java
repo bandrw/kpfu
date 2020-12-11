@@ -1,6 +1,5 @@
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -34,6 +33,8 @@ public class LoginController
 				Stage stage = new Stage();
 				stage.setTitle("Conference");
 				stage.setScene(new Scene(loader.load(), 850, 650));
+				stage.setMinWidth(650.0);
+				stage.setMinHeight(300.0);
 				MainController controller = loader.getController();
 				controller.initData(user);
 				stage.show();
@@ -43,7 +44,8 @@ public class LoginController
 			{
 				this.result.setText("Sys Error");
 				this.result.setStyle("-fx-text-fill: #e44444;");
-				System.err.println(e);
+				System.err.println("[handleButtonAction]");
+				e.printStackTrace();
 			}
 		}
 		else

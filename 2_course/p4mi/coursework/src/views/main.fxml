@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #303030;">
+            <AnchorPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #303030;">
                <children>
-                  <Label alignment="CENTER" text="Андрей Балашов" textAlignment="RIGHT" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
+                  <Label fx:id="nameLabel" alignment="CENTER" text="Андрей Балашов" textAlignment="RIGHT" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font name="Bender Regular" size="15.0" />
                      </font>
@@ -43,52 +40,14 @@
                   </HBox>
                </children>
             </AnchorPane>
-            <VBox fx:id="conferenceList" alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <AnchorPane maxHeight="80.0" maxWidth="700.0" prefHeight="80.0" prefWidth="200.0" style="-fx-border-color: #ee7b42;">
-                     <children>
-                        <AnchorPane maxHeight="80.0" maxWidth="80.0" prefHeight="80.0" prefWidth="80.0" style="-fx-background-color: #ee7b42;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <VBox alignment="CENTER" maxHeight="80.0" maxWidth="80.0" prefHeight="80.0" prefWidth="80.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Label alignment="CENTER" text="27" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="30.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="Ноября" textFill="WHITE" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label text="Проектирование человеко-машинного интерфейса" textFill="WHITE">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <HBox alignment="CENTER_LEFT" spacing="50.0">
-                                 <children>
-                                    <Label text="В 17:50" textFill="WHITE" />
-                                    <Label text="1.5 часа" textFill="WHITE" />
-                                 </children>
-                              </HBox>
-                           </children>
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </VBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="60.0" right="60.0" />
-                     </VBox.margin>
-                  </AnchorPane>
-               </children>
-            </VBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: #282828; -fx-border-color: #282828;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="conferenceList" alignment="CENTER" spacing="20.0" />
+               </content>
+               <VBox.margin>
+                  <Insets bottom="50.0" top="50.0" />
+               </VBox.margin>
+            </ScrollPane>
          </children>
       </VBox>
    </children>

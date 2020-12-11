@@ -10,6 +10,8 @@ public class ConferenceController
 	private User user;
 	private boolean isSubscribed = false;
 
+	private Label regLabel;
+
 	@FXML
 	private Label mainName;
 	@FXML
@@ -40,18 +42,31 @@ public class ConferenceController
 			this.subscribeButton.setStyle("-fx-background-color: #ee7b42");
 			this.subscribeButton.setText("Subscribe");
 			this.isSubscribed = false;
+			this.regLabel.setText("");
 		}
 		else
 		{
 			this.conference.addParticipant(this.user);
-			this.subscribeButton.setStyle("-fx-background-color: #add8e6");
+			this.subscribeButton.setStyle("-fx-background-color: #607b86");
 			this.subscribeButton.setText("Unsubscribe");
 			this.isSubscribed = true;
+			this.regLabel.setText("REGISTERED");
 		}
 	}
 
-	public void initData(Conference conference, User user)
+	public void initData(Conference conference, User user, Label regLabel)
 	{
+		this.regLabel = regLabel;
+		for (int participant : conference.participants)
+		{
+			if (participant == user.id)
+			{
+				this.isSubscribed = true;
+				this.subscribeButton.setStyle("-fx-background-color: #607b86");
+				this.subscribeButton.setText("Unsubscribe");
+				break;
+			}
+		}
 		this.conference = conference;
 		this.user = user;
 		mainName.setText(this.conference.name);

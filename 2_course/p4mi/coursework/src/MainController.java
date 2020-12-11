@@ -12,28 +12,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class MainController
 {
 	private User user;
 
 	@FXML
 	private VBox conferenceList;
+	@FXML
+	private Label nameLabel;
 
-	private Conference[] conferences = {
-			new Conference("Иностранный язык", "Юзмухаметова Л.Н.", "20 ноября 15:40", 90),
-			new Conference("Проектирование человеко-машинного интерфейса", "Балафендиева И.С.", "20 ноября 17:50", 90),
-			new Conference("Спецификация программных систем", "Матренина О.М.", "24 ноября 11:50", 90),
-	};
+	private final ArrayList<Conference> conferences = Database.getConferences();
 
 	public void initData(User user)
 	{
 		this.user = user;
-		conferences[0].description = "Изучаем английский";
-		conferences[0].link = "https://teams.microsoft.com";
-		conferences[1].description = "Делаем курсовые";
-		conferences[1].link = "https://teams.microsoft.com";
-		conferences[2].description = "Слушаем лекции";
-		conferences[2].link = "https://teams.microsoft.com";
+		this.nameLabel.setText(user.name);
 		for (Conference conference : conferences)
 		{
 			AnchorPane conferenceView = makeConferenceView(conference);
@@ -45,10 +40,11 @@ public class MainController
 	{
 		AnchorPane	mainView = new AnchorPane();
 		AnchorPane	dateArea = makeDateArea(conference);
-		VBox		contentArea = makeContentArea(conference);
+		AnchorPane	contentArea = makeContentArea(conference);
 
 		mainView.setPrefSize(200.0, 80.0);
 		mainView.setMaxSize(700.0, 80.0);
+		mainView.setMinSize(200.0, 80.0);
 		mainView.setStyle("-fx-border-color: #ee7b42;");
 		VBox.setMargin(mainView, new Insets(0, 60, 0, 60));
 
@@ -60,13 +56,16 @@ public class MainController
 				Stage stage = new Stage();
 				stage.setTitle(conference.name);
 				stage.setScene(new Scene(loader.load(), 550, 400));
+				stage.setMinHeight(400);
+				stage.setMinWidth(500);
 				ConferenceController controller = loader.getController();
-				controller.initData(conference, this.user);
+				controller.initData(conference, this.user, (Label) contentArea.getChildren().get(1));
 				stage.show();
 			}
 			catch (Exception ex)
 			{
-				System.err.println("[setOnMouseClicked] " + ex);
+				System.err.println("[setOnMouseClicked]");
+				ex.printStackTrace();
 			}
 		});
 
@@ -106,21 +105,40 @@ public class MainController
 		return (dateArea);
 	}
 
-	private VBox makeContentArea(Conference conference)
+	private AnchorPane makeContentArea(Conference conference)
 	{
-		VBox	contentArea = new VBox();
-		Label	name = new Label(conference.name);
-		HBox	info = new HBox();
-		Label	time = new Label("В 17:50");
-		Label	duration = new Label("1.5 часа");
+		AnchorPane	contentArea = new AnchorPane();
+		VBox		content = new VBox();
+		Label		registration = new Label();
+		Label		name = new Label(conference.name);
+		HBox		info = new HBox();
+		Label		time = new Label("В 17:50");
+		Label		duration = new Label("1.5 часа");
 
 		AnchorPane.setLeftAnchor(contentArea, 80.0);
 		AnchorPane.setTopAnchor(contentArea, 0.0);
 		AnchorPane.setRightAnchor(contentArea, 0.0);
 		AnchorPane.setBottomAnchor(contentArea, 0.0);
-		contentArea.setAlignment(Pos.CENTER_LEFT);
-		contentArea.setPadding(new Insets(0, 0, 0, 20));
-		contentArea.setSpacing(5.0);
+		AnchorPane.setLeftAnchor(content, 0.0);
+		AnchorPane.setTopAnchor(content, 0.0);
+		AnchorPane.setRightAnchor(content, 0.0);
+		AnchorPane.setBottomAnchor(content, 0.0);
+		content.setAlignment(Pos.CENTER_LEFT);
+		content.setPadding(new Insets(0, 0, 0, 20));
+		content.setSpacing(5.0);
+
+		registration.setFont(Font.font("System", 11));
+		AnchorPane.setTopAnchor(registration, 5.0);
+		AnchorPane.setRightAnchor(registration, 7.0);
+		registration.setTextFill(Color.web("#ee7b42"));
+		for (int id : conference.participants)
+		{
+			if (id == this.user.id)
+			{
+				registration.setText("REGISTERED");
+				break;
+			}
+		}
 
 		name.setFont(Font.font("System", 16));
 		name.setTextFill(Color.web("#ffffff"));
@@ -131,9 +149,11 @@ public class MainController
 
 		info.getChildren().add(time);
 		info.getChildren().add(duration);
-		contentArea.getChildren().add(name);
-		contentArea.getChildren().add(info);
+		content.getChildren().add(name);
+		content.getChildren().add(info);
 		contentArea.setCursor(Cursor.HAND);
+		contentArea.getChildren().add(content);
+		contentArea.getChildren().add(registration);
 		return (contentArea);
 	}
 }
