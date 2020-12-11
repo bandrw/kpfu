@@ -33,6 +33,7 @@ public class LoginController
 				Stage stage = new Stage();
 				stage.setTitle("Conference");
 				stage.setScene(new Scene(loader.load(), 850, 650));
+				stage.getScene().getStylesheets().add("css/style.css");
 				stage.setMinWidth(650.0);
 				stage.setMinHeight(300.0);
 				MainController controller = loader.getController();

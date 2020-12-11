@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainController
 {
@@ -78,8 +79,8 @@ public class MainController
 	{
 		AnchorPane	dateArea = new AnchorPane();
 		VBox		vBox = new VBox();
-		Label		labelDate = new Label("20");
-		Label		labelMonth = new Label("Ноября");
+		Label		labelDate = new Label(String.format("%d", conference.date.get(Calendar.DAY_OF_MONTH)));
+		Label		labelMonth = new Label(DateUtils.getMonthName(conference.date.get(Calendar.MONTH)));
 
 		AnchorPane.setTopAnchor(dateArea, 0.0);
 		AnchorPane.setLeftAnchor(dateArea, 0.0);
@@ -145,7 +146,7 @@ public class MainController
 		time.setTextFill(Color.web("#ffffff"));
 		duration.setTextFill(Color.web("#ffffff"));
 
-		info.setSpacing(50.0);
+		info.setSpacing(65.0);
 
 		info.getChildren().add(time);
 		info.getChildren().add(duration);

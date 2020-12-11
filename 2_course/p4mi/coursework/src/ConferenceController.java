@@ -4,6 +4,8 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.util.Calendar;
+
 public class ConferenceController
 {
 	private Conference conference;
@@ -70,7 +72,7 @@ public class ConferenceController
 		this.conference = conference;
 		this.user = user;
 		mainName.setText(this.conference.name);
-		date.setText(conference.date);
+		date.setText(DateUtils.getFormatDate(conference.date));
 		professor.setText("Преподаватель - " + conference.professor);
 		description.setText(conference.description);
 		link.setText(conference.link);

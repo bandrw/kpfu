@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Conference
 {
 	public int					id;
 	public String				name;
-	public String				date;
+	public Calendar				date;
 	public int					duration;
 	public String				professor;
 	public String				description;

@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Database
 {
@@ -40,7 +41,10 @@ public class Database
 				Conference tmpConference = new Conference();
 				tmpConference.id = resultSet.getInt("id");
 				tmpConference.name = resultSet.getString("name");
-				tmpConference.date = resultSet.getString("date");
+				Calendar calendar = Calendar.getInstance();
+				Timestamp timeStamp = resultSet.getTimestamp("date", calendar);
+				calendar.setTimeInMillis(timeStamp.getTime());
+				tmpConference.date = calendar;
 				tmpConference.duration = resultSet.getInt("duration");
 				tmpConference.professor = resultSet.getString("professor");
 				tmpConference.description = resultSet.getString("description");
