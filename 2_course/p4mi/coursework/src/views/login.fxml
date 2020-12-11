@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="500.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginController">
+	<VBox alignment="CENTER" layoutX="146.0" layoutY="85.0" minHeight="200.0" minWidth="300.0" prefHeight="200.0" prefWidth="300.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<VBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0" spacing="15.0">
+			<HBox alignment="CENTER" prefHeight="40.0" prefWidth="250.0" spacing="20.0">
+				<Label alignment="CENTER_RIGHT" prefWidth="60.0" style="-fx-text-fill: #ffffff;" text="Логин">
+					<font>
+						<Font name="Bender Regular" size="16.0" />
+					</font>
+				</Label>
+				<TextField fx:id="login" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff;">
+					<font>
+						<Font name="Bender Regular" size="16.0" />
+					</font>
+					<HBox.margin>
+						<Insets />
+					</HBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+				</TextField>
+			</HBox>
+			<HBox alignment="CENTER" prefHeight="40.0" prefWidth="250.0" spacing="20.0">
+				<Label alignment="CENTER_RIGHT" prefWidth="60.0" style="-fx-text-fill: #ffffff;" text="Пароль">
+					<font>
+						<Font name="Bender Regular" size="16.0" />
+					</font>
+				</Label>
+				<PasswordField fx:id="password" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff;">
+					<font>
+						<Font name="Bender Regular" size="16.0" />
+					</font>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+				</PasswordField>
+			</HBox>
+			<Label fx:id="result" alignment="CENTER" prefHeight="27.0" prefWidth="91.0" style="-fx-text-fill: #ffffff;" textAlignment="CENTER">
+				<font>
+					<Font name="Bender Regular" size="15.0" />
+				</font>
+				<VBox.margin>
+					<Insets top="5.0" />
+				</VBox.margin>
+			</Label>
+		</VBox>
+		<Button fx:id="loginButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: #e9873a; -fx-background-radius: 15px;" text="Войти" textAlignment="CENTER" textFill="WHITE">
+			<font>
+				<Font name="Bender Regular" size="16.0" />
+			</font>
+         <padding>
+            <Insets bottom="6.0" left="15.0" right="15.0" top="6.0" />
+         </padding>
+		</Button>
+	</VBox>
+</AnchorPane>
