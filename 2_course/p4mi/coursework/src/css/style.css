@@ -22,3 +22,13 @@
     -fx-background-color: #151515;
     -fx-background-radius: 5em;
 }
+
+.hyperlink {
+    -fx-border-width: 0;
+    -fx-text-fill: dodgerblue;
+    -fx-underline: false;
+}
+
+.hyperlink:hover {
+    -fx-underline: true;
+}

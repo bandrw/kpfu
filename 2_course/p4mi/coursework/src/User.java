@@ -4,6 +4,7 @@ public class User
 {
 	public int				id;
 	public String			name;
+	public boolean			isProfessor;
 	private final boolean	isAuthorized;
 
 	User(String login, String password)
@@ -22,6 +23,7 @@ public class User
 				{
 					this.id = resultSet.getInt("id");
 					this.name = resultSet.getString("name");
+					this.isProfessor = resultSet.getBoolean("is_professor");
 					return (true);
 				}
 			}

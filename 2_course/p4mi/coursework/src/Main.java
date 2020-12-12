@@ -1,6 +1,5 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -9,11 +8,16 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
-		Parent root = FXMLLoader.load(getClass().getResource("views/login.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("views/login.fxml"));
+
 		primaryStage.setMinHeight(250.0);
 		primaryStage.setMinWidth(350.0);
 		primaryStage.setTitle("Conference");
-		primaryStage.setScene(new Scene(root, 600, 500));
+		primaryStage.setScene(new Scene(loader.load(), 600, 500));
+		primaryStage.setMinWidth(650.0);
+		primaryStage.setMinHeight(300.0);
+		LoginController controller = loader.getController();
+		controller.initData(getHostServices());
 		primaryStage.show();
 	}
 

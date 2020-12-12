@@ -31,7 +31,6 @@ public class DateUtils
 
 	public static String getFormatDate(Calendar calendar)
 	{
-		System.out.println(calendar.getTime());
 		return (String.format("%d %s в %d:%d",
 				calendar.get(Calendar.DAY_OF_MONTH),
 				getMonthName(calendar.get(Calendar.MONTH)),

@@ -1,3 +1,4 @@
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,6 +9,8 @@ import javafx.stage.Stage;
 
 public class LoginController
 {
+	private HostServices hostServices;
+
 	@FXML
 	private Label result;
 	@FXML
@@ -37,7 +40,7 @@ public class LoginController
 				stage.setMinWidth(650.0);
 				stage.setMinHeight(300.0);
 				MainController controller = loader.getController();
-				controller.initData(user);
+				controller.initData(user, hostServices);
 				stage.show();
 				((Stage)loginButton.getScene().getWindow()).close();
 			}
@@ -54,5 +57,10 @@ public class LoginController
 			this.result.setText("Error");
 			this.result.setStyle("-fx-text-fill: #e44444;");
 		}
+	}
+
+	public void initData(HostServices hostServices)
+	{
+		this.hostServices = hostServices;
 	}
 }

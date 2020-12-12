@@ -45,8 +45,8 @@ public class Database
 				Timestamp timeStamp = resultSet.getTimestamp("date", calendar);
 				calendar.setTimeInMillis(timeStamp.getTime());
 				tmpConference.date = calendar;
-				tmpConference.duration = resultSet.getInt("duration");
-				tmpConference.professor = resultSet.getString("professor");
+				tmpConference.duration = resultSet.getString("duration");
+				tmpConference.professorId = resultSet.getInt("professor_id");
 				tmpConference.description = resultSet.getString("description");
 				tmpConference.link = resultSet.getString("link");
 				tmpConference.participants = new ArrayList<>();
@@ -93,5 +93,24 @@ public class Database
 			System.err.println("[updateParticipants]");
 			e.printStackTrace(System.err);
 		}
+	}
+
+	public static String getUserName(int id)
+	{
+		ResultSet res = Database.getUsers();
+		try
+		{
+			while (res.next())
+			{
+				if (res.getInt("id") == id)
+					return (res.getString("name"));
+			}
+		}
+		catch (Exception e)
+		{
+			System.err.println("[getProfessorName]");
+			e.printStackTrace();
+		}
+		return ("");
 	}
 }

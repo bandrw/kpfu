@@ -1,3 +1,4 @@
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -18,6 +19,7 @@ import java.util.Calendar;
 public class MainController
 {
 	private User user;
+	private HostServices hostServices;
 
 	@FXML
 	private VBox conferenceList;
@@ -26,8 +28,9 @@ public class MainController
 
 	private final ArrayList<Conference> conferences = Database.getConferences();
 
-	public void initData(User user)
+	public void initData(User user, HostServices hostServices)
 	{
+		this.hostServices = hostServices;
 		this.user = user;
 		this.nameLabel.setText(user.name);
 		for (Conference conference : conferences)
@@ -57,10 +60,13 @@ public class MainController
 				Stage stage = new Stage();
 				stage.setTitle(conference.name);
 				stage.setScene(new Scene(loader.load(), 550, 400));
-				stage.setMinHeight(400);
-				stage.setMinWidth(500);
+				stage.getScene().getStylesheets().add("css/style.css");
+				stage.setMinHeight(400.0);
+				stage.setMinWidth(500.0);
+				stage.setMaxHeight(450.0);
+				stage.setMaxWidth(650.0);
 				ConferenceController controller = loader.getController();
-				controller.initData(conference, this.user, (Label) contentArea.getChildren().get(1));
+				controller.initData(conference, this.user, (Label) contentArea.getChildren().get(1), hostServices);
 				stage.show();
 			}
 			catch (Exception ex)
@@ -113,8 +119,11 @@ public class MainController
 		Label		registration = new Label();
 		Label		name = new Label(conference.name);
 		HBox		info = new HBox();
-		Label		time = new Label("В 17:50");
-		Label		duration = new Label("1.5 часа");
+		Label		time = new Label(String.format("В %d:%d",
+				conference.date.get(Calendar.HOUR_OF_DAY),
+				conference.date.get(Calendar.MINUTE))
+		);
+		Label		duration = new Label(conference.duration);
 
 		AnchorPane.setLeftAnchor(contentArea, 80.0);
 		AnchorPane.setTopAnchor(contentArea, 0.0);
