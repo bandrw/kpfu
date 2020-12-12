@@ -4,38 +4,47 @@ import java.util.Calendar;
 
 public class Database
 {
-	private static final String url = "jdbc:mysql://localhost:3306/conferences?serverTimezone=UTC";
-	private static final String user = "root";
-	private static final String password = "";
+	private final String url = "jdbc:mysql://localhost:3306/conferences?serverTimezone=UTC";
 
-	private static Connection connection;
-	private static Statement statement;
-	private static ResultSet resultSet;
+	private Connection connection;
+	private Statement statement;
 
-	public static ResultSet getUsers()
+	Database(String url, String user, String password)
 	{
 		try
 		{
-			connection = DriverManager.getConnection(url, user, password);
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery("SELECT * FROM users");
+			this.connection = DriverManager.getConnection(url, user, password);
+			this.statement = connection.createStatement();
+		}
+		catch (Exception e)
+		{
+			System.err.println("[Database]");
+			e.printStackTrace(System.err);
+		}
+	}
+
+	public ResultSet getUsers()
+	{
+		try
+		{
+			return (this.statement.executeQuery("SELECT * FROM users"));
 		}
 		catch (Exception e)
 		{
 			System.err.println("[getUsers]");
 			e.printStackTrace(System.err);
 		}
-		return (resultSet);
+		return (null);
 	}
 
-	public static ArrayList<Conference> getConferences()
+	public ArrayList<Conference> getConferences(Database database)
 	{
 		ArrayList<Conference> conferences = new ArrayList<>();
+		ResultSet resultSet;
+
 		try
 		{
-			connection = DriverManager.getConnection(url, user, password);
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery("SELECT * FROM conference");
+			resultSet = this.statement.executeQuery("SELECT * FROM conference");
 			while (resultSet.next())
 			{
 				Conference tmpConference = new Conference();
@@ -50,6 +59,7 @@ public class Database
 				tmpConference.description = resultSet.getString("description");
 				tmpConference.link = resultSet.getString("link");
 				tmpConference.participants = new ArrayList<>();
+				tmpConference.database = database;
 				String participantsStr = resultSet.getString("participants");
 				if (!participantsStr.isEmpty())
 				{
@@ -68,15 +78,14 @@ public class Database
 		return (conferences);
 	}
 
-	public static void updateParticipants(int id, ArrayList<Integer> participants)
+	public void updateParticipants(int id, ArrayList<Integer> participants)
 	{
 		PreparedStatement preparedStatement;
 		StringBuilder str = new StringBuilder();
 
 		try
 		{
-			connection = DriverManager.getConnection(url, user, password);
-			preparedStatement = connection.prepareStatement("UPDATE conference SET participants = ? WHERE id = ?");
+			preparedStatement = this.connection.prepareStatement("UPDATE conference SET participants = ? WHERE id = ?");
 			for (int nbr : participants)
 			{
 				str.append(nbr);
@@ -95,9 +104,10 @@ public class Database
 		}
 	}
 
-	public static String getUserName(int id)
+	public String getUserName(int id)
 	{
-		ResultSet res = Database.getUsers();
+		ResultSet res = this.getUsers();
+
 		try
 		{
 			while (res.next())
@@ -111,6 +121,6 @@ public class Database
 			System.err.println("[getProfessorName]");
 			e.printStackTrace();
 		}
-		return ("");
+		return (null);
 	}
 }

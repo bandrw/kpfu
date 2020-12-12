@@ -20,19 +20,22 @@ public class MainController
 {
 	private User user;
 	private HostServices hostServices;
+	private Database database;
 
 	@FXML
 	private VBox conferenceList;
 	@FXML
 	private Label nameLabel;
 
-	private final ArrayList<Conference> conferences = Database.getConferences();
+	private ArrayList<Conference> conferences;
 
-	public void initData(User user, HostServices hostServices)
+	public void initData(User user, HostServices hostServices, Database database)
 	{
+		this.database = database;
 		this.hostServices = hostServices;
 		this.user = user;
 		this.nameLabel.setText(user.name);
+		this.conferences = database.getConferences(this.database);
 		for (Conference conference : conferences)
 		{
 			AnchorPane conferenceView = makeConferenceView(conference);
@@ -66,7 +69,7 @@ public class MainController
 				stage.setMaxHeight(450.0);
 				stage.setMaxWidth(650.0);
 				ConferenceController controller = loader.getController();
-				controller.initData(conference, this.user, (Label) contentArea.getChildren().get(1), hostServices);
+				controller.initData(conference, this.user, (Label) contentArea.getChildren().get(1), hostServices, this.database);
 				stage.show();
 			}
 			catch (Exception ex)

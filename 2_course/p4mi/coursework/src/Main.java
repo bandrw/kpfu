@@ -9,15 +9,15 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws Exception
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("views/login.fxml"));
+		Database database = new Database("jdbc:mysql://localhost:3306/conferences?serverTimezone=UTC", "root", "");
 
-		primaryStage.setMinHeight(250.0);
 		primaryStage.setMinWidth(350.0);
 		primaryStage.setTitle("Conference");
 		primaryStage.setScene(new Scene(loader.load(), 600, 500));
 		primaryStage.setMinWidth(650.0);
 		primaryStage.setMinHeight(300.0);
 		LoginController controller = loader.getController();
-		controller.initData(getHostServices());
+		controller.initData(getHostServices(), database);
 		primaryStage.show();
 	}
 

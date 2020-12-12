@@ -6,15 +6,17 @@ public class User
 	public String			name;
 	public boolean			isProfessor;
 	private final boolean	isAuthorized;
+	private Database		database;
 
-	User(String login, String password)
+	User(String login, String password, Database database)
 	{
+		this.database = database;
 		this.isAuthorized = authorize(login, password);
 	}
 
 	private boolean authorize(String login, String password)
 	{
-		ResultSet resultSet = Database.getUsers();
+		ResultSet resultSet = this.database.getUsers();
 		try
 		{
 			while (resultSet.next())

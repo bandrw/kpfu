@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 public class LoginController
 {
 	private HostServices hostServices;
+	private Database database;
 
 	@FXML
 	private Label result;
@@ -25,7 +26,7 @@ public class LoginController
 	{
 		User user;
 
-		user = new User(this.login.getText(), this.password.getText());
+		user = new User(this.login.getText(), this.password.getText(), this.database);
 		if (user.isAuthorized())
 		{
 			this.result.setText("");
@@ -40,7 +41,7 @@ public class LoginController
 				stage.setMinWidth(650.0);
 				stage.setMinHeight(300.0);
 				MainController controller = loader.getController();
-				controller.initData(user, hostServices);
+				controller.initData(user, hostServices, database);
 				stage.show();
 				((Stage)loginButton.getScene().getWindow()).close();
 			}
@@ -59,8 +60,9 @@ public class LoginController
 		}
 	}
 
-	public void initData(HostServices hostServices)
+	public void initData(HostServices hostServices, Database database)
 	{
 		this.hostServices = hostServices;
+		this.database = database;
 	}
 }

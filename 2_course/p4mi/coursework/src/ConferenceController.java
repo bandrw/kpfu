@@ -11,6 +11,7 @@ public class ConferenceController
 	private User user;
 	private boolean isSubscribed = false;
 	private HostServices hostServices;
+	private Database database;
 
 	private Label regLabel;
 
@@ -56,8 +57,9 @@ public class ConferenceController
 		}
 	}
 
-	public void initData(Conference conference, User user, Label regLabel, HostServices hostServices)
+	public void initData(Conference conference, User user, Label regLabel, HostServices hostServices, Database database)
 	{
+		this.database = database;
 		this.hostServices = hostServices;
 		this.regLabel = regLabel;
 		for (int participant : conference.participants)
@@ -74,7 +76,7 @@ public class ConferenceController
 		this.user = user;
 		mainName.setText(this.conference.name);
 		date.setText(DateUtils.getFormatDate(conference.date));
-		professor.setText("Преподаватель - " + Database.getUserName(conference.professorId));
+		professor.setText("Преподаватель - " + this.database.getUserName(conference.professorId));
 		description.setText(conference.description);
 		link.setText("cсылка");
 		link.setOnAction((e) -> {
