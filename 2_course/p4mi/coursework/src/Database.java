@@ -101,32 +101,6 @@ public class Database
 		}
 	}
 
-	public void						addConference(Conference conference)
-	{
-		PreparedStatement preparedStatement;
-
-		if (conference.date.before(Calendar.getInstance()))
-			return ;
-		try
-		{
-			preparedStatement = this.connection.prepareStatement(
-				"INSERT INTO conference (name, professor_id, date, duration, description, link) " +
-				"VALUES (?, ?, ?, ?, ?, ?)");
-			preparedStatement.setString(1, conference.name);
-			preparedStatement.setInt(2, conference.professorId);
-			preparedStatement.setTimestamp(3, new Timestamp(conference.date.getTimeInMillis()));
-			preparedStatement.setString(4, conference.duration);
-			preparedStatement.setString(5, conference.description);
-			preparedStatement.setString(6, conference.link);
-			preparedStatement.executeUpdate();
-		}
-		catch (Exception e)
-		{
-			System.err.println("[updateParticipants]");
-			e.printStackTrace(System.err);
-		}
-	}
-
 	public String					getUserName(int id)
 	{
 		ResultSet res = this.getUsers();
@@ -148,6 +122,32 @@ public class Database
 		return (null);
 	}
 
+	public void						addConference(Conference conference)
+	{
+		PreparedStatement preparedStatement;
+
+		if (conference.date.before(Calendar.getInstance()))
+			return ;
+		try
+		{
+			preparedStatement = this.connection.prepareStatement(
+				"INSERT INTO conference (name, professor_id, date, duration, description, link) " +
+				"VALUES (?, ?, ?, ?, ?, ?)");
+			preparedStatement.setString(1, conference.name);
+			preparedStatement.setInt(2, conference.professorId);
+			preparedStatement.setTimestamp(3, new Timestamp(conference.date.getTimeInMillis()));
+			preparedStatement.setString(4, conference.duration);
+			preparedStatement.setString(5, conference.description);
+			preparedStatement.setString(6, conference.link);
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e)
+		{
+			System.err.println("[addConference]");
+			e.printStackTrace(System.err);
+		}
+	}
+
 	public void						deleteConference(int id)
 	{
 		PreparedStatement preparedStatement;
@@ -161,6 +161,33 @@ public class Database
 		catch (Exception e)
 		{
 			System.err.println("[deleteConference]");
+			e.printStackTrace(System.err);
+		}
+	}
+
+	public void						editConference(Conference conference)
+	{
+		PreparedStatement preparedStatement;
+
+		if (conference.date.before(Calendar.getInstance()))
+			return ;
+		try
+		{
+			preparedStatement = this.connection.prepareStatement(
+					"UPDATE conference " +
+					"SET name = ?, date = ?, duration = ?, description = ?, link = ? " +
+					"WHERE id = ?");
+			preparedStatement.setString(1, conference.name);
+			preparedStatement.setTimestamp(2, new Timestamp(conference.date.getTimeInMillis()));
+			preparedStatement.setString(3, conference.duration);
+			preparedStatement.setString(4, conference.description);
+			preparedStatement.setString(5, conference.link);
+			preparedStatement.setInt(6, conference.id);
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e)
+		{
+			System.err.println("[editConference]");
 			e.printStackTrace(System.err);
 		}
 	}

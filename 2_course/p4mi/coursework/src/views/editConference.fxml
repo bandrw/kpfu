@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditConference">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox fx:id="inputVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="500.0" spacing="20.0" VBox.vgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </padding>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="250.0" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefWidth="130.0" style="-fx-text-fill: #ffffff;" text="Conference name">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="name" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff;">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="250.0" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefWidth="130.0" style="-fx-text-fill: #ffffff;" text="Date">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="date" prefWidth="130.0" style="-fx-background-color: transparent;" />
+                        <HBox alignment="CENTER" prefWidth="100.0">
+                           <children>
+                              <TextField fx:id="hours" prefWidth="30.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 2px 0; -fx-border-color: #3d3d3d; -fx-text-inner-color: white;" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </TextField>
+                              <Label text=":" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="3.0" right="3.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="minutes" prefWidth="30.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: white;" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="250.0" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefWidth="130.0" style="-fx-text-fill: #ffffff;" text="Duration">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="duration" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff;">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="250.0" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefWidth="130.0" style="-fx-text-fill: #ffffff;" text="Description">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="-55.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextArea fx:id="description" minHeight="80.0" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-control-inner-background: #282828; -fx-highlight-fill: #e9873a; -fx-border-width: 0 0 2px 0; -fx-border-color: #3d3d3d;">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextArea>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="250.0" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefWidth="130.0" style="-fx-text-fill: #ffffff;" text="Link">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="link" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff;">
+                           <font>
+                              <Font name="Bender Regular" size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" maxWidth="560.0" spacing="10.0" VBox.vgrow="NEVER">
+               <children>
+                  <Button fx:id="closeButton" mnemonicParsing="false" onAction="#close" style="-fx-background-color: transparent; -fx-border-color: #444444; -fx-border-width: 1;" text="Close" textFill="#ee7b42">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="editButton" mnemonicParsing="false" onAction="#editHandle" style="-fx-background-color: #ee7b42;" text="Save" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets right="30.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

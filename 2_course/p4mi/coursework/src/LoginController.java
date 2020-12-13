@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class LoginController
@@ -36,8 +37,10 @@ public class LoginController
 				stage.getScene().getStylesheets().add("css/style.css");
 				stage.setMinWidth(650.0);
 				stage.setMinHeight(300.0);
+				stage.setX(this.loginButton.getScene().getWindow().getX() + (this.loginButton.getScene().getWindow().getWidth() - 850) / 2.0);
+				stage.setY(this.loginButton.getScene().getWindow().getY() + (this.loginButton.getScene().getWindow().getHeight() - 650) / 2.0);
 				stage.show();
-				((Stage)loginButton.getScene().getWindow()).close();
+				((Stage)this.loginButton.getScene().getWindow()).close();
 			}
 			catch (Exception e)
 			{

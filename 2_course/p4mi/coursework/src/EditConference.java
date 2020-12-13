@@ -5,10 +5,13 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class AddConference
+public class EditConference
 {
+	private int conferenceId;
+
 	@FXML
 	private TextField name;
 	@FXML
@@ -24,14 +27,26 @@ public class AddConference
 	@FXML
 	private VBox inputVBox;
 	@FXML
-	private Button addButton;
+	private Button editButton;
 	@FXML
 	private TextField hours;
 	@FXML
 	private TextField minutes;
 
+	public void initData(Conference conference)
+	{
+		this.conferenceId = conference.id;
+		this.name.setText(conference.name);
+		this.date.setValue(LocalDate.ofInstant(conference.date.toInstant(), conference.date.getTimeZone().toZoneId()));
+		this.duration.setText(conference.duration);
+		this.description.setText(conference.description);
+		this.link.setText(conference.link);
+		this.hours.setText(String.valueOf(conference.date.get(Calendar.HOUR_OF_DAY)));
+		this.minutes.setText(String.valueOf(conference.date.get(Calendar.MINUTE)));
+	}
+
 	@FXML
-	private void addHandle()
+	private void editHandle()
 	{
 		ArrayList<String> errors = new ArrayList<>();
 		int hours = -1;
@@ -61,6 +76,7 @@ public class AddConference
 		if (errors.isEmpty())
 		{
 			Conference conference = new Conference();
+			conference.id = this.conferenceId;
 			conference.name = this.name.getText();
 			LocalDate localDate = this.date.getValue();
 			conference.date = new GregorianCalendar(
@@ -73,9 +89,8 @@ public class AddConference
 			conference.professorId = LoginController.user.id;
 			conference.description = this.description.getText();
 			conference.link = this.link.getText();
-			Main.database.addConference(conference);
-			MainController.plus.setDisable(false);
-			((Stage)this.addButton.getScene().getWindow()).close();
+			Main.database.editConference(conference);
+			((Stage)this.editButton.getScene().getWindow()).close();
 		}
 		else
 		{
@@ -88,7 +103,6 @@ public class AddConference
 	@FXML
 	private void close()
 	{
-		MainController.plus.setDisable(false);
 		((Stage) this.closeButton.getScene().getWindow()).close();
 	}
 }

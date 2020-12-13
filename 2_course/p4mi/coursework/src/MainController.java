@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -119,7 +120,7 @@ public class MainController
 			tmp.getChildren().add(deleteImage);
 			deleteImage.setFitHeight(40.0);
 			deleteImage.setFitWidth(40.0);
-			deleteImage.setCursor(Cursor.DISAPPEAR);
+			deleteImage.setCursor(Cursor.HAND);
 			deleteImage.setOnMouseClicked((e) -> deleteConference(conference));
 			AnchorPane.setBottomAnchor(tmp, 0.0);
 			AnchorPane.setTopAnchor(tmp, 0.0);
@@ -234,6 +235,8 @@ public class MainController
 			stage.setTitle("New conference");
 			stage.setScene(new Scene(loader.load(), 600, 500));
 			stage.getScene().getStylesheets().add("css/style.css");
+			stage.setX(this.header.getScene().getWindow().getX() + (this.header.getScene().getWindow().getWidth() - 600) / 2.0);
+			stage.setY(this.header.getScene().getWindow().getY() + (this.header.getScene().getWindow().getHeight() - 500) / 2.0);
 			stage.setMinHeight(500.0);
 			stage.setMinWidth(550.0);
 			stage.setMaxHeight(700.0);
@@ -251,6 +254,8 @@ public class MainController
 	private void deleteConference(Conference conference)
 	{
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setX(this.header.getScene().getWindow().getX() + (this.header.getScene().getWindow().getWidth() - 500) / 2.0);
+		alert.setY(this.header.getScene().getWindow().getY() + (this.header.getScene().getWindow().getHeight() - 200) / 2.0);
 		DialogPane dialogPane = alert.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("css/alert.css").toExternalForm());
 		dialogPane.getStyleClass().add("myDialog");
@@ -259,6 +264,7 @@ public class MainController
 		dialogPane.lookupButton(ButtonType.CANCEL).setCursor(Cursor.HAND);
 		dialogPane.setPrefWidth(500.0);
 		dialogPane.setPrefHeight(200.0);
+
 		alert.setTitle("Delete confirmation");
 		alert.setHeaderText("Are you sure you want to delete conference " + conference.name + "?");
 		if (alert.showAndWait().get() == ButtonType.OK)
@@ -276,18 +282,23 @@ public class MainController
 
 			Stage stage = new Stage();
 			stage.setTitle(conference.name);
+			stage.initModality(Modality.WINDOW_MODAL);
+			double height;
 			if (LoginController.user.id == conference.professorId)
 			{
-				stage.setScene(new Scene(loader.load(), 550, 550));
+				height = 550.0;
 				stage.setMinHeight(550.0);
 				stage.setMaxHeight(600.0);
 			}
 			else
 			{
-				stage.setScene(new Scene(loader.load(), 550, 420));
+				height = 420.0;
 				stage.setMinHeight(420.0);
-				stage.setMaxHeight(420.0);
+				stage.setMaxHeight(470.0);
 			}
+			stage.setScene(new Scene(loader.load(), 550, height));
+			stage.setX(this.header.getScene().getWindow().getX() + (this.header.getScene().getWindow().getWidth() - 550) / 2.0);
+			stage.setY(this.header.getScene().getWindow().getY() + (this.header.getScene().getWindow().getHeight() - height) / 2.0);
 			stage.getScene().getStylesheets().add("css/style.css");
 			stage.setMinWidth(500.0);
 			stage.setMaxWidth(650.0);

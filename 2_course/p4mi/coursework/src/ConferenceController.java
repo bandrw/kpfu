@@ -1,5 +1,8 @@
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -74,7 +77,17 @@ public class ConferenceController
 
 	private void ownerView()
 	{
+		Button edit = new Button();
+
 		this.conferenceViewButtons.getChildren().remove(this.subscribeButton);
+		if (this.conference.date.before(DateUtils.getCurrentTime()))
+			edit.setDisable(true);
+		edit.setText("Edit");
+		edit.setCursor(Cursor.HAND);
+		edit.setStyle("-fx-background-color: #ee7b42; -fx-text-fill: white");
+		edit.setFont(Font.font(15));
+		edit.setOnMouseClicked((e) -> editConference());
+		this.conferenceViewButtons.getChildren().add(edit);
 		mainName.setText(this.conference.name);
 		date.setText(DateUtils.getFormatDate(conference.date));
 		professor.setText("Преподаватель - " + Main.database.getUserName(conference.professorId));
@@ -133,5 +146,33 @@ public class ConferenceController
 		scrollArea.setContent(contentArea);
 		vBox.getChildren().add(scrollArea);
 		return (vBox);
+	}
+
+	private void editConference()
+	{
+		try
+		{
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("views/editConference.fxml"));
+
+			Stage stage = new Stage();
+			stage.setTitle("Edit conference");
+			stage.setScene(new Scene(loader.load(), 600, 500));
+			stage.getScene().getStylesheets().add("css/style.css");
+			EditConference controller = loader.getController();
+			controller.initData(conference);
+			stage.setX(this.closeButton.getScene().getWindow().getX() + (this.closeButton.getScene().getWindow().getWidth() - 600) / 2.0);
+			stage.setY(this.closeButton.getScene().getWindow().getY() + (this.closeButton.getScene().getWindow().getHeight() - 500) / 2.0);
+			stage.setMinHeight(500.0);
+			stage.setMinWidth(550.0);
+			stage.setMaxHeight(700.0);
+			stage.setMaxWidth(700.0);
+			stage.show();
+		}
+		catch (Exception e)
+		{
+			System.err.println("[editConference]");
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 }
