@@ -4,8 +4,6 @@ import java.util.Calendar;
 
 public class Database
 {
-	private final String url = "jdbc:mysql://localhost:3306/conferences?serverTimezone=UTC";
-
 	private Connection connection;
 	private Statement statement;
 
@@ -37,14 +35,14 @@ public class Database
 		return (null);
 	}
 
-	public ArrayList<Conference> getConferences(Database database)
+	public ArrayList<Conference> getConferences()
 	{
 		ArrayList<Conference> conferences = new ArrayList<>();
 		ResultSet resultSet;
 
 		try
 		{
-			resultSet = this.statement.executeQuery("SELECT * FROM conference");
+			resultSet = this.statement.executeQuery("SELECT * FROM conference ORDER BY date");
 			while (resultSet.next())
 			{
 				Conference tmpConference = new Conference();
@@ -59,9 +57,8 @@ public class Database
 				tmpConference.description = resultSet.getString("description");
 				tmpConference.link = resultSet.getString("link");
 				tmpConference.participants = new ArrayList<>();
-				tmpConference.database = database;
 				String participantsStr = resultSet.getString("participants");
-				if (!participantsStr.isEmpty())
+				if (participantsStr != null && !participantsStr.isEmpty())
 				{
 					String[] arr = participantsStr.split(":");
 					for (String p : arr)
@@ -95,6 +92,33 @@ public class Database
 				str.deleteCharAt(str.length() - 1);
 			preparedStatement.setString(1, str.toString());
 			preparedStatement.setInt(2, id);
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e)
+		{
+			System.err.println("[updateParticipants]");
+			e.printStackTrace(System.err);
+		}
+	}
+
+	public void addConference(Conference conference)
+	{
+		PreparedStatement preparedStatement;
+
+		if (conference.date.before(Calendar.getInstance()))
+			return ;
+		try
+		{
+			preparedStatement = this.connection.prepareStatement(
+				"INSERT INTO conference (name, professor_id, date, duration, description, link) " +
+				"VALUES (?, ?, ?, ?, ?, ?)");
+			preparedStatement.setString(1, conference.name);
+			preparedStatement.setInt(2, conference.professorId);
+			preparedStatement.setDate(3, new Date(conference.date.getTimeInMillis()));
+			//handle hours and minutes
+			preparedStatement.setString(4, conference.duration);
+			preparedStatement.setString(5, conference.description);
+			preparedStatement.setString(6, conference.link);
 			preparedStatement.executeUpdate();
 		}
 		catch (Exception e)

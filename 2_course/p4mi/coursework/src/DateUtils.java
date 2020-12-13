@@ -1,4 +1,5 @@
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateUtils
 {
@@ -37,5 +38,13 @@ public class DateUtils
 				calendar.get(Calendar.HOUR_OF_DAY),
 				calendar.get(Calendar.MINUTE)
 		));
+	}
+
+	public static Calendar getCurrentTime()
+	{
+		Calendar calendar = Calendar.getInstance();
+		Date date = new Date();
+		calendar.setTimeInMillis(date.getTime());
+		return (calendar);
 	}
 }

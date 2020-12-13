@@ -18,19 +18,19 @@
                         <Font name="Bender Regular" size="15.0" />
                      </font>
                   </Label>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox fx:id="header" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="home_icon" fitHeight="25.0" fitWidth="25.0" onMousePressed="#mainSceneInit" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/home_logo.png" />
+                              <Image url="@../img/home.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="history_icon" cache="true" cacheHint="QUALITY" fitHeight="25.0" fitWidth="25.0" onMousePressed="#historySceneInit" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/person_logo.png" />
+                              <Image url="@../img/history.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />

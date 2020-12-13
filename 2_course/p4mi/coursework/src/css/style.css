@@ -32,3 +32,101 @@
 .hyperlink:hover {
     -fx-underline: true;
 }
+
+.date-picker > .text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: #3d3d3d;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.date-picker-popup {
+    -fx-padding: 1;
+    -fx-background-color: lightgray;
+}
+
+.date-picker-popup > .month-year-pane {
+    -fx-padding: 4;
+    -fx-background-color: #EFEFEF;
+}
+
+.date-picker-popup > .month-year-pane > .spinner {
+    -fx-spacing: 4;
+    -fx-alignment: CENTER;
+    -fx-fill-height: false;
+}
+
+.date-picker-popup > .month-year-pane > .spinner > .spinner-label {
+    -fx-font-size: 1.083333em;
+    -fx-alignment: CENTER;
+    -fx-text-fill: #606060;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup > * > .cell {
+    -fx-padding: 0 7;
+    -fx-alignment: BASELINE_CENTER;
+}
+
+.date-picker-popup > * > .cell:disabled > * {
+    /* This is set on the cell's children so the border is not affected. */
+    -fx-opacity: 0.4;
+}
+
+.date-picker-popup > * > .week-number-header-cell,
+.date-picker-popup > * > .day-name-cell {
+    -fx-font-size: 0.833333em;
+    -fx-padding: 0;
+    -fx-text-fill: #0070C0;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup > * > .day-cell {
+    -fx-text-fill: black;
+    -fx-border-color: lightgray;
+    -fx-border-width: 1;
+    -fx-border-insets: 0;
+}
+
+.date-picker-popup > * > .hijrah-day-cell {
+    -fx-alignment: TOP_LEFT;
+    -fx-cell-size: 2.75em;
+}
+
+.date-picker-popup > * > .day-cell:focused {
+    -fx-background-color: #CCE8FF;
+}
+
+.date-picker-popup > * > .day-cell:hover {
+    -fx-background-color: #EFEFEF;
+}
+
+.date-picker-popup > * > .day-cell > .secondary-text {
+    -fx-font-size: 1.0em;
+    -fx-fill: #ff5050;
+}
+
+.date-picker-popup > * > .today {
+    -fx-background-insets: 1;
+    -fx-border-color: #606060;
+    -fx-border-insets: 1;
+}
+
+.date-picker-popup > * > .today:focused {
+    -fx-background-color: #CCE8FF;
+}
+
+.date-picker-popup > * > .selected {
+    -fx-background-color: #CCE8FF;
+}
+
+.date-picker-popup > * > .previous-month,
+.date-picker-popup > * > .next-month {
+    -fx-text-fill: #aaaaaa;
+}
+
+.date-picker-popup > * > .previous-month > .secondary-text,
+.date-picker-popup > * > .next-month > .secondary-text {
+    -fx-fill: #aaaaaa;
+}

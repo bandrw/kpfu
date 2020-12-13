@@ -1,4 +1,3 @@
-import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -10,8 +9,6 @@ public class ConferenceController
 	private Conference conference;
 	private User user;
 	private boolean isSubscribed = false;
-	private HostServices hostServices;
-	private Database database;
 
 	private Label regLabel;
 
@@ -57,10 +54,8 @@ public class ConferenceController
 		}
 	}
 
-	public void initData(Conference conference, User user, Label regLabel, HostServices hostServices, Database database)
+	public void initData(Conference conference, User user, Label regLabel)
 	{
-		this.database = database;
-		this.hostServices = hostServices;
 		this.regLabel = regLabel;
 		for (int participant : conference.participants)
 		{
@@ -76,11 +71,11 @@ public class ConferenceController
 		this.user = user;
 		mainName.setText(this.conference.name);
 		date.setText(DateUtils.getFormatDate(conference.date));
-		professor.setText("Преподаватель - " + this.database.getUserName(conference.professorId));
+		professor.setText("Преподаватель - " + Main.database.getUserName(conference.professorId));
 		description.setText(conference.description);
 		link.setText("cсылка");
-		link.setOnAction((e) -> {
-			hostServices.showDocument(conference.link);
-		});
+		link.setOnAction((e) -> Main.hostServices.showDocument(conference.link));
+		if (this.conference.date.before(DateUtils.getCurrentTime()))
+			this.subscribeButton.setDisable(true);
 	}
 }
