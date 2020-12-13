@@ -3,10 +3,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class AddConference
@@ -62,7 +60,7 @@ public class AddConference
 					localDate.getYear(),
 					localDate.getMonthValue() - 1,
 					localDate.getDayOfMonth(),
-					hours,
+					hours + 3, // UTC+3
 					minutes);
 			conference.duration = this.duration.getText();
 			conference.professorId = LoginController.user.id;

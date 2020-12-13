@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -25,8 +25,18 @@ public class MainController
 	private Label nameLabel;
 	@FXML
 	private HBox header;
+	@FXML
+	private ImageView home_icon;
+	@FXML
+	private ImageView history_icon;
 
 	private static ArrayList<Conference> conferences;
+	private Label status;
+	private enum Scenes {
+		Main,
+		History
+	}
+	private Scenes currentScene;
 
 	public void initialize()
 	{
@@ -46,16 +56,16 @@ public class MainController
 	@FXML
 	private void mainSceneInit()
 	{
+		this.currentScene = Scenes.Main;
+		this.home_icon.setImage(new Image("img/home_active.png"));
+		this.history_icon.setImage(new Image("img/history.png"));
 		this.nameLabel.setText(LoginController.user.name);
 		this.conferenceList.getChildren().clear();
 		conferences = Main.database.getConferences();
 		for (Conference conference : conferences)
 		{
 			if (conference.date.after(DateUtils.getCurrentTime()))
-			{
-				AnchorPane conferenceView = makeConferenceView(conference);
-				this.conferenceList.getChildren().add(conferenceView);
-			}
+				this.conferenceList.getChildren().add(makeConferenceView(conference));
 		}
 		if (this.conferenceList.getChildren().isEmpty())
 			this.conferenceList.getChildren().add(new Label("Empty"));
@@ -64,16 +74,18 @@ public class MainController
 	@FXML
 	private void historySceneInit()
 	{
+		this.currentScene = Scenes.History;
+		this.home_icon.setImage(new Image("img/home.png"));
+		this.history_icon.setImage(new Image("img/history_active.png"));
 		this.nameLabel.setText(LoginController.user.name);
 		conferences = Main.database.getConferences();
 		this.conferenceList.getChildren().clear();
-		for (Conference conference : conferences)
+		int i = conferences.size() - 1;
+		while (i >= 0)
 		{
-			if (conference.date.before(DateUtils.getCurrentTime()))
-			{
-				AnchorPane conferenceView = makeConferenceView(conference);
-				this.conferenceList.getChildren().add(conferenceView);
-			}
+			if (conferences.get(i).date.before(DateUtils.getCurrentTime()))
+				this.conferenceList.getChildren().add(makeConferenceView(conferences.get(i)));
+			i--;
 		}
 		if (this.conferenceList.getChildren().isEmpty())
 			this.conferenceList.getChildren().add(new Label("Empty"));
@@ -84,6 +96,7 @@ public class MainController
 		AnchorPane	mainView = new AnchorPane();
 		AnchorPane	dateArea = makeDateArea(conference);
 		AnchorPane	contentArea = makeContentArea(conference);
+		AnchorPane	deleteArea = new AnchorPane();
 
 		mainView.setPrefSize(200.0, 80.0);
 		mainView.setMaxSize(700.0, 80.0);
@@ -105,18 +118,42 @@ public class MainController
 				stage.setMaxHeight(450.0);
 				stage.setMaxWidth(650.0);
 				ConferenceController controller = loader.getController();
-				controller.initData(conference, LoginController.user, (Label) contentArea.getChildren().get(1));
+				controller.initData(conference, LoginController.user, this.status);
 				stage.show();
 			}
 			catch (Exception ex)
 			{
 				System.err.println("[setOnMouseClicked]");
 				ex.printStackTrace();
+				System.exit(1);
 			}
 		});
 
+		if (this.currentScene == Scenes.Main && conference.professorId == LoginController.user.id)
+		{
+			AnchorPane.setRightAnchor(deleteArea, 0.0);
+			AnchorPane.setTopAnchor(deleteArea, 0.0);
+			AnchorPane.setBottomAnchor(deleteArea, 0.0);
+			deleteArea.setPrefSize(80.0, 80.0);
+			ImageView deleteImage = new ImageView(new Image("img/delete.png"));
+			VBox tmp = new VBox();
+			tmp.setAlignment(Pos.CENTER);
+			tmp.getChildren().add(deleteImage);
+			deleteImage.setFitHeight(40.0);
+			deleteImage.setFitWidth(40.0);
+			deleteImage.setCursor(Cursor.DISAPPEAR);
+			deleteImage.setOnMouseClicked((e) -> deleteConference(conference));
+			AnchorPane.setBottomAnchor(tmp, 0.0);
+			AnchorPane.setTopAnchor(tmp, 0.0);
+			AnchorPane.setLeftAnchor(tmp, 0.0);
+			AnchorPane.setRightAnchor(tmp, 0.0);
+			deleteArea.getChildren().add(tmp);
+		}
+
 		mainView.getChildren().add(dateArea);
 		mainView.getChildren().add(contentArea);
+		if (this.currentScene == Scenes.Main && conference.professorId == LoginController.user.id)
+			mainView.getChildren().add(deleteArea);
 		return (mainView);
 	}
 
@@ -155,10 +192,9 @@ public class MainController
 	{
 		AnchorPane	contentArea = new AnchorPane();
 		VBox		content = new VBox();
-		Label		registration = new Label();
 		Label		name = new Label(conference.name);
 		HBox		info = new HBox();
-		Label		time = new Label(String.format("В %d:%d",
+		Label		time = new Label(String.format("В %02d:%02d",
 				conference.date.get(Calendar.HOUR_OF_DAY),
 				conference.date.get(Calendar.MINUTE))
 		);
@@ -176,15 +212,18 @@ public class MainController
 		content.setPadding(new Insets(0, 0, 0, 20));
 		content.setSpacing(5.0);
 
-		registration.setFont(Font.font("System", 11));
-		AnchorPane.setTopAnchor(registration, 5.0);
-		AnchorPane.setRightAnchor(registration, 7.0);
-		registration.setTextFill(Color.web("#ee7b42"));
+		this.status = new Label();
+		this.status.setPrefWidth(80.0);
+		this.status.setAlignment(Pos.CENTER);
+		this.status.setFont(Font.font("System", 11));
+		AnchorPane.setTopAnchor(this.status, 5.0);
+		AnchorPane.setRightAnchor(this.status, 0.0);
+		this.status.setTextFill(Color.web("#ee7b42"));
 		for (int id : conference.participants)
 		{
 			if (id == LoginController.user.id)
 			{
-				registration.setText("REGISTERED");
+				this.status.setText("REGISTERED");
 				break;
 			}
 		}
@@ -202,7 +241,7 @@ public class MainController
 		content.getChildren().add(info);
 		contentArea.setCursor(Cursor.HAND);
 		contentArea.getChildren().add(content);
-		contentArea.getChildren().add(registration);
+		contentArea.getChildren().add(this.status);
 		return (contentArea);
 	}
 
@@ -226,6 +265,27 @@ public class MainController
 		{
 			System.err.println("[addConference]");
 			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	private void deleteConference(Conference conference)
+	{
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.getStylesheets().add(getClass().getResource("css/alert.css").toExternalForm());
+		dialogPane.getStyleClass().add("myDialog");
+		dialogPane.lookupButton(ButtonType.OK).setStyle("-fx-background-color: #e9873a");
+		dialogPane.lookupButton(ButtonType.OK).setCursor(Cursor.HAND);
+		dialogPane.lookupButton(ButtonType.CANCEL).setCursor(Cursor.HAND);
+		dialogPane.setPrefWidth(500.0);
+		dialogPane.setPrefHeight(200.0);
+		alert.setTitle("Delete confirmation");
+		alert.setHeaderText("Are you sure you want to delete conference " + conference.name + "?");
+		if (alert.showAndWait().get() == ButtonType.OK)
+		{
+			Main.database.deleteConference(conference.id);
+			this.mainSceneInit();
 		}
 	}
 }

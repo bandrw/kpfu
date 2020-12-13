@@ -41,10 +41,9 @@ public class LoginController
 			}
 			catch (Exception e)
 			{
-				this.result.setText("Sys Error");
-				this.result.setStyle("-fx-text-fill: #e44444;");
 				System.err.println("[handleButtonAction]");
 				e.printStackTrace();
+				System.exit(1);
 			}
 		}
 		else

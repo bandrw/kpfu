@@ -114,8 +114,7 @@ public class Database
 				"VALUES (?, ?, ?, ?, ?, ?)");
 			preparedStatement.setString(1, conference.name);
 			preparedStatement.setInt(2, conference.professorId);
-			preparedStatement.setDate(3, new Date(conference.date.getTimeInMillis()));
-			//handle hours and minutes
+			preparedStatement.setTimestamp(3, new Timestamp(conference.date.getTimeInMillis()));
 			preparedStatement.setString(4, conference.duration);
 			preparedStatement.setString(5, conference.description);
 			preparedStatement.setString(6, conference.link);
@@ -144,7 +143,25 @@ public class Database
 		{
 			System.err.println("[getProfessorName]");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		return (null);
+	}
+
+	public void deleteConference(int id)
+	{
+		PreparedStatement preparedStatement;
+
+		try
+		{
+			preparedStatement = this.connection.prepareStatement("DELETE FROM conference WHERE id = ?");
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+		}
+		catch (Exception e)
+		{
+			System.err.println("[deleteConference]");
+			e.printStackTrace(System.err);
+		}
 	}
 }
