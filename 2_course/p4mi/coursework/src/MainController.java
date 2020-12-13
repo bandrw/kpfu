@@ -31,7 +31,7 @@ public class MainController
 	private ImageView history_icon;
 
 	private static ArrayList<Conference> conferences;
-	private Label status;
+	public static ImageView plus;
 	private enum Scenes {
 		Main,
 		History
@@ -43,7 +43,7 @@ public class MainController
 		mainSceneInit();
 		if (LoginController.user.isProfessor)
 		{
-			ImageView plus = new ImageView();
+			plus = new ImageView();
 			plus.setImage(new Image("img/plus.png"));
 			plus.setFitWidth(25.0);
 			plus.setFitHeight(25.0);
@@ -94,8 +94,9 @@ public class MainController
 	private AnchorPane makeConferenceView(Conference conference)
 	{
 		AnchorPane	mainView = new AnchorPane();
+		Label		status = new Label();
 		AnchorPane	dateArea = makeDateArea(conference);
-		AnchorPane	contentArea = makeContentArea(conference);
+		AnchorPane	contentArea = makeContentArea(conference, status);
 		AnchorPane	deleteArea = new AnchorPane();
 
 		mainView.setPrefSize(200.0, 80.0);
@@ -104,30 +105,7 @@ public class MainController
 		mainView.setStyle("-fx-border-color: #ee7b42;");
 		VBox.setMargin(mainView, new Insets(0, 60, 0, 60));
 
-		contentArea.setOnMouseClicked((e) -> {
-			try
-			{
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("views/conference.fxml"));
-
-				Stage stage = new Stage();
-				stage.setTitle(conference.name);
-				stage.setScene(new Scene(loader.load(), 550, 400));
-				stage.getScene().getStylesheets().add("css/style.css");
-				stage.setMinHeight(400.0);
-				stage.setMinWidth(500.0);
-				stage.setMaxHeight(450.0);
-				stage.setMaxWidth(650.0);
-				ConferenceController controller = loader.getController();
-				controller.initData(conference, LoginController.user, this.status);
-				stage.show();
-			}
-			catch (Exception ex)
-			{
-				System.err.println("[setOnMouseClicked]");
-				ex.printStackTrace();
-				System.exit(1);
-			}
-		});
+		contentArea.setOnMouseClicked((e) -> showConference(conference, status));
 
 		if (this.currentScene == Scenes.Main && conference.professorId == LoginController.user.id)
 		{
@@ -188,7 +166,7 @@ public class MainController
 		return (dateArea);
 	}
 
-	private AnchorPane makeContentArea(Conference conference)
+	private AnchorPane makeContentArea(Conference conference, Label status)
 	{
 		AnchorPane	contentArea = new AnchorPane();
 		VBox		content = new VBox();
@@ -212,18 +190,17 @@ public class MainController
 		content.setPadding(new Insets(0, 0, 0, 20));
 		content.setSpacing(5.0);
 
-		this.status = new Label();
-		this.status.setPrefWidth(80.0);
-		this.status.setAlignment(Pos.CENTER);
-		this.status.setFont(Font.font("System", 11));
-		AnchorPane.setTopAnchor(this.status, 5.0);
-		AnchorPane.setRightAnchor(this.status, 0.0);
-		this.status.setTextFill(Color.web("#ee7b42"));
+		status.setPrefWidth(80.0);
+		status.setAlignment(Pos.CENTER);
+		status.setFont(Font.font("System", 11));
+		AnchorPane.setTopAnchor(status, 5.0);
+		AnchorPane.setRightAnchor(status, 0.0);
+		status.setTextFill(Color.web("#ee7b42"));
 		for (int id : conference.participants)
 		{
 			if (id == LoginController.user.id)
 			{
-				this.status.setText("REGISTERED");
+				status.setText("REGISTERED");
 				break;
 			}
 		}
@@ -241,7 +218,7 @@ public class MainController
 		content.getChildren().add(info);
 		contentArea.setCursor(Cursor.HAND);
 		contentArea.getChildren().add(content);
-		contentArea.getChildren().add(this.status);
+		contentArea.getChildren().add(status);
 		return (contentArea);
 	}
 
@@ -251,7 +228,9 @@ public class MainController
 		{
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("views/addConference.fxml"));
 
+			plus.setDisable(true);
 			Stage stage = new Stage();
+			stage.setOnCloseRequest((e) -> plus.setDisable(false));
 			stage.setTitle("New conference");
 			stage.setScene(new Scene(loader.load(), 600, 500));
 			stage.getScene().getStylesheets().add("css/style.css");
@@ -286,6 +265,41 @@ public class MainController
 		{
 			Main.database.deleteConference(conference.id);
 			this.mainSceneInit();
+		}
+	}
+
+	private void showConference(Conference conference, Label status)
+	{
+		try
+		{
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("views/conference.fxml"));
+
+			Stage stage = new Stage();
+			stage.setTitle(conference.name);
+			if (LoginController.user.id == conference.professorId)
+			{
+				stage.setScene(new Scene(loader.load(), 550, 550));
+				stage.setMinHeight(550.0);
+				stage.setMaxHeight(600.0);
+			}
+			else
+			{
+				stage.setScene(new Scene(loader.load(), 550, 420));
+				stage.setMinHeight(420.0);
+				stage.setMaxHeight(420.0);
+			}
+			stage.getScene().getStylesheets().add("css/style.css");
+			stage.setMinWidth(500.0);
+			stage.setMaxWidth(650.0);
+			ConferenceController controller = loader.getController();
+			controller.initData(conference, status);
+			stage.show();
+		}
+		catch (Exception ex)
+		{
+			System.err.println("[setOnMouseClicked]");
+			ex.printStackTrace();
+			System.exit(1);
 		}
 	}
 }

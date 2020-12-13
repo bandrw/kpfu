@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.GregorianCalendar;
 
 public class AddConference
@@ -34,11 +35,22 @@ public class AddConference
 	private void addHandle()
 	{
 		ArrayList<String> errors = new ArrayList<>();
+		int hours = -1;
+		int minutes = -1;
 
 		if (this.name.getText().isEmpty())
 			errors.add("Enter conference name");
-		if (this.date == null)
+		if (this.date.getValue() == null)
 			errors.add("Enter conference date");
+		if (this.hours.getText().isEmpty() || this.minutes.getText().isEmpty())
+			errors.add("Enter conference time");
+		else
+		{
+			hours = Integer.parseInt(this.hours.getText());
+			minutes = Integer.parseInt(this.minutes.getText());
+			if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59)
+				errors.add("Enter correct time");
+		}
 		if (this.duration.getText().isEmpty())
 			errors.add("Enter conference duration");
 		if (this.description.getText().isEmpty())
@@ -47,10 +59,6 @@ public class AddConference
 			errors.add("Enter conference link");
 		if (this.inputVBox.getChildren().size() == 6)
 			this.inputVBox.getChildren().remove(5);
-		int hours = Integer.parseInt(this.hours.getText());
-		int minutes = Integer.parseInt(this.minutes.getText());
-		if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59)
-			errors.add("Enter correct time");
 		if (errors.isEmpty())
 		{
 			Conference conference = new Conference();
@@ -67,6 +75,7 @@ public class AddConference
 			conference.description = this.description.getText();
 			conference.link = this.link.getText();
 			Main.database.addConference(conference);
+			MainController.plus.setDisable(false);
 			((Stage)this.addButton.getScene().getWindow()).close();
 		}
 		else
@@ -80,6 +89,7 @@ public class AddConference
 	@FXML
 	private void close()
 	{
-		((Stage)this.closeButton.getScene().getWindow()).close();
+		MainController.plus.setDisable(false);
+		((Stage) this.closeButton.getScene().getWindow()).close();
 	}
 }

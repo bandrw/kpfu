@@ -4,8 +4,8 @@ import java.util.Calendar;
 
 public class Database
 {
-	private Connection connection;
-	private Statement statement;
+	private Connection	connection;
+	private Statement	statement;
 
 	Database(String url, String user, String password)
 	{
@@ -21,7 +21,7 @@ public class Database
 		}
 	}
 
-	public ResultSet getUsers()
+	public ResultSet				getUsers()
 	{
 		try
 		{
@@ -35,7 +35,7 @@ public class Database
 		return (null);
 	}
 
-	public ArrayList<Conference> getConferences()
+	public ArrayList<Conference>	getConferences()
 	{
 		ArrayList<Conference> conferences = new ArrayList<>();
 		ResultSet resultSet;
@@ -75,7 +75,7 @@ public class Database
 		return (conferences);
 	}
 
-	public void updateParticipants(int id, ArrayList<Integer> participants)
+	public void						updateParticipants(int id, ArrayList<Integer> participants)
 	{
 		PreparedStatement preparedStatement;
 		StringBuilder str = new StringBuilder();
@@ -101,7 +101,7 @@ public class Database
 		}
 	}
 
-	public void addConference(Conference conference)
+	public void						addConference(Conference conference)
 	{
 		PreparedStatement preparedStatement;
 
@@ -127,7 +127,7 @@ public class Database
 		}
 	}
 
-	public String getUserName(int id)
+	public String					getUserName(int id)
 	{
 		ResultSet res = this.getUsers();
 
@@ -148,7 +148,7 @@ public class Database
 		return (null);
 	}
 
-	public void deleteConference(int id)
+	public void						deleteConference(int id)
 	{
 		PreparedStatement preparedStatement;
 
