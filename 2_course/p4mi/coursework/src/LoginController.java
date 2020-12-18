@@ -4,7 +4,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class LoginController
@@ -23,8 +22,8 @@ public class LoginController
 	@FXML
 	private void handleButtonAction()
 	{
-		user = new User(this.login.getText(), this.password.getText(), Main.database);
-		if (user.isAuthorized())
+		user = new User();
+		if (user.authorize(this.login.getText(), this.password.getText()))
 		{
 			this.result.setText("");
 			try

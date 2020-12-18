@@ -103,7 +103,7 @@
                               <Insets top="-55.0" />
                            </HBox.margin>
                         </Label>
-                        <TextArea fx:id="description" minHeight="80.0" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-control-inner-background: #282828; -fx-highlight-fill: #e9873a; -fx-border-width: 0 0 2px 0; -fx-border-color: #3d3d3d;">
+                        <TextArea fx:id="description" minHeight="80.0" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-control-inner-background: #282828; -fx-highlight-fill: #e9873a; -fx-border-width: 0 0 2px 0; -fx-border-color: #3d3d3d;" wrapText="true">
                            <font>
                               <Font name="Bender Regular" size="16.0" />
                            </font>

@@ -75,7 +75,30 @@ public class Database
 		return (conferences);
 	}
 
-	public void						updateParticipants(int id, ArrayList<Integer> participants)
+	public ArrayList<User>			getUsersList(ResultSet resultSet)
+	{
+		ArrayList<User> users = new ArrayList<>();
+
+		try
+		{
+			while (resultSet.next())
+			{
+				User user = new User();
+				user.id = resultSet.getInt("id");
+				user.name = resultSet.getString("name");
+				user.isProfessor = resultSet.getBoolean("is_professor");
+				users.add(user);
+			}
+		}
+		catch (Exception e)
+		{
+			System.err.println("[getUsersList]");
+			e.printStackTrace(System.err);
+		}
+		return (users);
+	}
+
+	public void						updateParticipants(int conferenceId, ArrayList<Integer> participants)
 	{
 		PreparedStatement preparedStatement;
 		StringBuilder str = new StringBuilder();
@@ -91,7 +114,7 @@ public class Database
 			if (str.length() != 0)
 				str.deleteCharAt(str.length() - 1);
 			preparedStatement.setString(1, str.toString());
-			preparedStatement.setInt(2, id);
+			preparedStatement.setInt(2, conferenceId);
 			preparedStatement.executeUpdate();
 		}
 		catch (Exception e)

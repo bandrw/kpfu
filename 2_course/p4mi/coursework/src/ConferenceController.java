@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.sql.ResultSet;
+
 public class ConferenceController
 {
 	private Conference conference;
@@ -90,7 +92,7 @@ public class ConferenceController
 		this.conferenceViewButtons.getChildren().add(edit);
 		mainName.setText(this.conference.name);
 		date.setText(DateUtils.getFormatDate(conference.date));
-		professor.setText("Преподаватель - " + Main.database.getUserName(conference.professorId));
+		professor.setText("Преподаватель - " + this.getUserName(conference.professorId));
 		description.setText(conference.description);
 		link.setText("cсылка");
 		this.information.getChildren().add(makeParticipantsList());
@@ -111,7 +113,7 @@ public class ConferenceController
 		}
 		mainName.setText(this.conference.name);
 		date.setText(DateUtils.getFormatDate(conference.date));
-		professor.setText("Преподаватель - " + Main.database.getUserName(conference.professorId));
+		professor.setText("Преподаватель - " + this.getUserName(conference.professorId));
 		description.setText(conference.description);
 		link.setText("cсылка");
 		link.setOnAction((e) -> Main.hostServices.showDocument(conference.link));
@@ -174,5 +176,15 @@ public class ConferenceController
 			e.printStackTrace();
 			System.exit(1);
 		}
+	}
+
+	private String getUserName(int userId)
+	{
+		for (User user : Main.users)
+		{
+			if (user.id == userId)
+				return (user.name);
+		}
+		return (null);
 	}
 }
