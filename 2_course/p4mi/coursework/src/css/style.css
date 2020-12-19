@@ -71,7 +71,6 @@
 }
 
 .date-picker-popup > * > .cell:disabled > * {
-    /* This is set on the cell's children so the border is not affected. */
     -fx-opacity: 0.4;
 }
 
@@ -130,4 +129,10 @@
 .date-picker-popup > * > .previous-month > .secondary-text,
 .date-picker-popup > * > .next-month > .secondary-text {
     -fx-fill: #aaaaaa;
+}
+
+.text-area:focused {
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
 }

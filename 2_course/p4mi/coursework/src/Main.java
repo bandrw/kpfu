@@ -17,7 +17,7 @@ public class Main extends Application
 	{
 		hostServices = getHostServices();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("views/login.fxml"));
-		database = new Database("jdbc:mysql://localhost:3306/conferences?serverTimezone=UTC", "root", "");
+		database = new Database("jdbc:mysql://35.228.242.143:3306/conferences?serverTimezone=UTC", "p4mi", "P4mi_12345");
 		users = database.getUsersList(database.getUsers());
 
 		primaryStage.setTitle("Conference");

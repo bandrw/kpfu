@@ -23,7 +23,7 @@
 						<Font name="Bender Regular" size="16.0" />
 					</font>
 				</Label>
-				<TextField fx:id="login" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff;">
+				<TextField fx:id="login" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff; -fx-accent: #e9873a;">
 					<font>
 						<Font name="Bender Regular" size="16.0" />
 					</font>
@@ -44,7 +44,7 @@
 						<Font name="Bender Regular" size="16.0" />
 					</font>
 				</Label>
-				<PasswordField fx:id="password" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff;">
+				<PasswordField fx:id="password" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 2px 0; -fx-text-inner-color: #ffffff; -fx-accent: #e9873a;">
 					<font>
 						<Font name="Bender Regular" size="16.0" />
 					</font>
