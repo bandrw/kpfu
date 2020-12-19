@@ -1,8 +1,4 @@
 ## Курсовая работа по дисциплине "Проектирование человеко-машинного интерфейса" на тему "Конференция"
-### Контакты:
-ФИО: Балашов Андрей Евгеньевич
-
-Телефон: 89196890142
 
 ### Информация о программном продукте:
 Для запуска необходимо иметь на компьютере установленную JRE ([ссылка](https://www.oracle.com/ru/java/technologies/javase-jre8-downloads.html)).
@@ -22,3 +18,8 @@
 
 ###### Запуск:
 * `java -cp out:src/lib/mysql/mysql.connector.jar --module-path src/lib/javafx --add-modules javafx.controls,javafx.fxml,javafx.graphics Main`
+
+### Контакты:
+ФИО: Балашов Андрей Евгеньевич
+
+Телефон: 89196890142
