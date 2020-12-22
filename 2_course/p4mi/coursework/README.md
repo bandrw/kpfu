@@ -11,10 +11,7 @@
 * `java --module-path src/lib/javafx --add-modules javafx.controls,javafx.fxml,javafx.graphics  -jar conference.jar`
 
 ###### Компиляция:
-* `javac -d out --module-path src/lib/javafx --add-modules javafx.controls,javafx.fxml,javafx.graphics src/AddConference.java src/Conference.java src/ConferenceController.java src/Database.java src/DateUtils.java src/EditConference.java src/LoginController.java src/Main.java src/MainController.java src/User.java`
-* `cp -r src/views out`
-* `cp -r src/css out`
-* `cp -r src/img out`
+* `javac -d out --module-path src/lib/javafx --add-modules javafx.controls,javafx.fxml,javafx.graphics src/AddConference.java src/Conference.java src/ConferenceController.java src/Database.java src/DateUtils.java src/EditConference.java src/LoginController.java src/Main.java src/MainController.java src/User.java && cp -r src/views out && cp -r src/css out && cp -r src/img out`
 
 ###### Запуск:
 * `java -cp out:src/lib/mysql/mysql.connector.jar --module-path src/lib/javafx --add-modules javafx.controls,javafx.fxml,javafx.graphics Main`
