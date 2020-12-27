@@ -15,8 +15,3 @@
 
 ###### Запуск:
 * `java -cp out:src/lib/mysql/mysql.connector.jar --module-path src/lib/javafx --add-modules javafx.controls,javafx.fxml,javafx.graphics Main`
-
-### Контакты:
-ФИО: Балашов Андрей Евгеньевич
-
-Телефон: 89196890142
