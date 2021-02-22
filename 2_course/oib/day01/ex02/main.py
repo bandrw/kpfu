@@ -62,15 +62,19 @@ def main(file_name):
 	if mode != "1" and mode != "2" and mode != "3":
 		raise Exception("invalid mode")
 	if mode == "1" or mode == "2":
-		print("Введите файл:")
+		print("Введите путь к файлу:")
 		file = open(input("> "), "r")
 		text = file.read()
 		file.close()
 		key = parse_key(file_name)
 		if mode == "1":
-			print("Result:\n{}".format(encrypt(text, key)))
+			result = encrypt(text, key)
 		else:
-			print("Result:\n{}".format(decrypt(text, key)))
+			result = decrypt(text, key)
+		file = open("out.txt", "w")
+		file.write(result)
+		file.close()
+		print("Result output in out.txt")
 	else:
 		generate_key(file_name)
 
