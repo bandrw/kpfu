@@ -29,7 +29,7 @@ def encrypt_char(ch, shift):
 	upper = False
 	if ch.isupper():
 		upper = True
-		ch = chr(ord(ch) + ord('a') - ord('A'))
+		ch = ch.lower()
 	replacement = ord(ch) + shift
 	while replacement > ord('z'):
 		replacement -= ord('z') - ord('a') + 1
@@ -53,10 +53,8 @@ def brute_force(text):
 		print("[Shift: {}]\t\"{}\"".format(i, decrypt(text[0:20], i)))
 	print("Введите сдвиг: ")
 	shift = int(input("> "))
-	if shift <= 0:
+	if shift < 0 or shift > 25:
 		raise Exception("invalid shift")
-	while shift >= 26:
-		shift -= 26
 	print("Result:\n{}".format(decrypt(text, shift)))
 
 
@@ -71,12 +69,9 @@ def main():
 		shift = int(input("> "))
 		if shift <= 0:
 			raise Exception("invalid shift")
-		while shift >= 26:
-			shift -= 26
-	print("Введите файл:")
-	file = open(input("> "), "r")
-	text = file.read()
-	file.close()
+		shift = shift % 26
+	print("Введите текст:")
+	text = input("> ")
 	if mode == "1":
 		print("Result:\n{}".format(encrypt(text, shift)))
 	elif mode == "2":

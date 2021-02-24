@@ -7,15 +7,11 @@ def get_frequency(text):
 	frequency = {}
 	for i in range(ord('a'), ord('z') + 1):
 		frequency[chr(i)] = 0
-	for i in range(ord('A'), ord('Z') + 1):
-		frequency[chr(i)] = 0
 	for ch in text:
 		if is_alpha(ch):
-			frequency[ch] += 1
+			frequency[ch.lower()] += 1
 			count += 1
 	for i in range(ord('a'), ord('z') + 1):
-		frequency[chr(i)] /= count
-	for i in range(ord('A'), ord('Z') + 1):
 		frequency[chr(i)] /= count
 	return frequency
 
@@ -23,8 +19,6 @@ def get_frequency(text):
 def sort_frequency(dictionary):
 	array = []
 	for i in range(ord('a'), ord('z') + 1):
-		array.append(chr(i))
-	for i in range(ord('A'), ord('Z') + 1):
 		array.append(chr(i))
 	for i in range(0, len(array)):
 		for j in range(i + 1, len(array)):
@@ -42,23 +36,12 @@ def get_key(ref_text, encrypted_text):
 	return key
 
 
-def decrypt(text, key):
-	res = ""
-	for ch in text:
-		tmp = key.get(ch)
-		if tmp is not None:
-			res += tmp
-		else:
-			res += ch
-	return res
-
-
 def compare_keys(original_key, tmp_key):
-	correct = 0
+	count = 0
 	for i in range(ord('a'), ord('z') + 1):
 		if chr(i) == tmp_key[original_key[chr(i)]]:
-			correct += 1
-	return correct / 26
+			count += 1
+	return count / 26
 
 
 def correct(text, key):
@@ -69,12 +52,7 @@ def correct(text, key):
 			print("Таблица шифрования:")
 			for i in range(ord('a'), ord('z') + 1):
 				print("{} -> {}".format(chr(i), key[chr(i)]))
-			for i in range(ord('A'), ord('Z') + 1):
-				print("{} -> {}".format(chr(i), key[chr(i)]))
-			print("Расшифрованный текст записан в out.txt")
-			file = open("out.txt", "w")
-			file.write(encrypt(text, key))
-			file.close()
+			print("Result:\n{}".format(encrypt(text, key)))
 			return
 		arr = line.split(" ")
 		if len(arr) == 2:
@@ -83,12 +61,7 @@ def correct(text, key):
 					key[chr(i)] = arr[1]
 				elif key[chr(i)] == arr[1]:
 					key[chr(i)] = arr[0]
-			for i in range(ord('A'), ord('Z') + 1):
-				if key[chr(i)] == arr[0]:
-					key[chr(i)] = arr[1]
-				elif key[chr(i)] == arr[1]:
-					key[chr(i)] = arr[0]
-		print("Result: {}".format(encrypt(text, key)[0:500]))
+		print("Result: {}".format(encrypt(text[0:250], key)))
 
 
 def main():
@@ -96,12 +69,10 @@ def main():
 	mode = input("> ").strip()
 	if mode != "1" and mode != "2":
 		raise Exception("invalid mode")
-	print("Введите путь к большому текстовому файлу (default - text/big.txt):")
+	print("Введите путь к большому текстовому файлу:")
 	file_name = input("> ").strip()
-	if file_name == "":
-		file_name = "text/big.txt"
 	file = open(file_name, "r")
-	big_text = file.read().lower()
+	big_text = file.read()
 	file.close()
 	if mode == "1":
 		generate_key("key.txt")
