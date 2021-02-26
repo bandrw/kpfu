@@ -30,7 +30,7 @@ public class LogarithmicContrast
 		}
 	}
 
-	private static void logarithmicContrast(BufferedImage img)
+	private static void logarithmicContrast(BufferedImage img, int c)
 	{
 		Color color;
 		Color min = new Color(255, 255, 255);
@@ -42,9 +42,9 @@ public class LogarithmicContrast
 			for (int j = 0; j < img.getHeight(); j++)
 			{
 				color = new Color(-img.getRGB(i, j));
-				color.red = (int)((double)color.red * Math.log(1 + (double)max.red));
-				color.green = (int)((double)color.green * Math.log(1 + (double)max.green));
-				color.blue = (int)((double)color.blue * Math.log(1 + (double)max.blue));
+				color.red = (int)(c * Math.log(1 + (double)color.red));
+				color.green = (int)(c * Math.log(1 + (double)color.green));
+				color.blue = (int)(c * Math.log(1 + (double)color.blue));
 				img.setRGB(i, j, -color.getRGB());
 			}
 		}
@@ -58,9 +58,9 @@ public class LogarithmicContrast
 		int width;
 		int height;
 
-		if (args.length != 2)
+		if (args.length != 3)
 		{
-			System.out.println("Usage: `java Main src.jpg out.jpg`");
+			System.out.println("Usage: `java Main <src.jpg> <out.jpg> <const c>`");
 			System.exit(1);
 		}
 		try
@@ -72,7 +72,7 @@ public class LogarithmicContrast
 			for (int i = 0; i < width; i++)
 				for (int j = 0; j < height; j++)
 					dst.setRGB(i, j, src.getRGB(i, j));
-			logarithmicContrast(dst);
+			logarithmicContrast(dst, Integer.parseInt(args[2]));
 			out = new File(args[1]);
 			if (!out.exists() && !out.createNewFile() || !out.canWrite())
 				throw new Exception("Can't create file");
