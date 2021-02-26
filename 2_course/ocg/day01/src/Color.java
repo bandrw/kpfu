@@ -4,11 +4,14 @@ public class Color
 	int green;
 	int blue;
 
+	public Color()
+	{
+
+	}
+
 	public Color(int rgb)
 	{
-		this.red = getRed(rgb);
-		this.green = getGreen(rgb);
-		this.blue = getBlue(rgb);
+		setRGB(rgb);
 	}
 
 	public Color(int red, int green, int blue)
@@ -16,6 +19,13 @@ public class Color
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
+	}
+
+	public void setRGB(int rgb)
+	{
+		this.red = getRed(rgb);
+		this.green = getGreen(rgb);
+		this.blue = getBlue(rgb);
 	}
 
 	public static int getRed(int rgb)

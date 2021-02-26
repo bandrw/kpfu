@@ -4,44 +4,15 @@ import java.io.File;
 
 public class LogarithmicContrast
 {
-	private static void getMinMax(Color min, Color max, BufferedImage img)
-	{
-		int color;
-
-		for (int i = 0; i < img.getWidth(); i++)
-		{
-			for (int j = 0; j < img.getHeight(); j++)
-			{
-				color = img.getRGB(i, j);
-				Color rgb = new Color(-color);
-				if (rgb.red > max.red)
-					max.red = rgb.red;
-				if (rgb.green > max.green)
-					max.green = rgb.green;
-				if (rgb.blue > max.blue)
-					max.blue = rgb.blue;
-				if (rgb.red < min.red)
-					min.red = rgb.red;
-				if (rgb.green < min.green)
-					min.green = rgb.green;
-				if (rgb.blue < min.blue)
-					min.blue = rgb.blue;
-			}
-		}
-	}
-
 	private static void logarithmicContrast(BufferedImage img, int c)
 	{
-		Color color;
-		Color min = new Color(255, 255, 255);
-		Color max = new Color(0, 0, 0);
+		Color color = new Color();
 
-		getMinMax(min, max, img);
 		for (int i = 0; i < img.getWidth(); i++)
 		{
 			for (int j = 0; j < img.getHeight(); j++)
 			{
-				color = new Color(-img.getRGB(i, j));
+				color.setRGB(-img.getRGB(i, j));
 				color.red = (int)(c * Math.log(1 + (double)color.red));
 				color.green = (int)(c * Math.log(1 + (double)color.green));
 				color.blue = (int)(c * Math.log(1 + (double)color.blue));
