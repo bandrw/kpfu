@@ -29,15 +29,15 @@ public class Main
 
 	private static void filterNoise(BufferedImage img)
 	{
-		int step = 3;
+		int step = 4;
 		Color color = new Color();
 		Color[] colors = new Color[step * step];
 
 		for (int i = 0; i < colors.length; i++)
 			colors[i] = new Color();
-		for (int i = 0; i < img.getWidth() - 3; i += step)
+		for (int i = 0; i < img.getWidth() - step; i += step)
 		{
-			for (int j = 0; j < img.getHeight() - 3; j += step)
+			for (int j = 0; j < img.getHeight() - step; j += step)
 			{
 				for (int k = 0; k < step; k++)
 					for (int l = 0; l < step; l++)
