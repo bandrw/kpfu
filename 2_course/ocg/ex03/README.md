@@ -1,5 +1,5 @@
 # Subject
-- display 100 random circles using Bresenham's algorithm
+- Display 100 random circles using Bresenham's algorithm
 
 ### Usage
 > #### Compile
