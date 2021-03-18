@@ -3,6 +3,6 @@
 
 ### Usage
 > #### Compile
-> `javac -d out src/Main.java`
+> `javac -d out src/Circle.java src/Main.java`
 > #### Run
 > `java -cp out Main out.jpg`
