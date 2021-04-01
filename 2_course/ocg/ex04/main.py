@@ -1,4 +1,5 @@
 import sys
+import math
 
 import pygame
 from random import randint
@@ -13,9 +14,12 @@ def get_random_color():
 
 def put_polygon(screen, nodes_count):
 	points = []
-	for i in range(nodes_count - 1):
-		x = randint(1, WINDOW_WIDTH - 2)
-		y = randint(1, WINDOW_HEIGHT - 2)
+	angle = randint(0, 360)
+	for i in range(nodes_count):
+		interval = randint(100, min(int(WINDOW_HEIGHT / 2), int(WINDOW_WIDTH / 2)))
+		x = int(WINDOW_WIDTH / 2 + math.cos(math.radians(angle)) * interval)
+		y = int(WINDOW_HEIGHT / 2 + math.sin(math.radians(angle)) * interval)
+		angle += 360 / nodes_count
 		points.append((x, y))
 	points.append(points[0])
 	prev_point = None
