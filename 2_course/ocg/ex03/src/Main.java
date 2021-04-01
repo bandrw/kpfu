@@ -65,7 +65,8 @@ public class Main
 					dst.setRGB(i, j, Color.WHITE.getRGB());
 			for (int i = 0; i < 100; i++)
 			{
-				putCircle(dst, new Circle(random.nextInt(width), random.nextInt(height),
+				putCircle(dst, new Circle(random.nextInt(width * 2) - width,
+											random.nextInt(height * 2) - height,
 											random.nextInt(width + height),
 											-random.nextInt(-Color.BLACK.getRGB())));
 			}

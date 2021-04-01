@@ -49,7 +49,7 @@ def encrypt(text, shift):
 
 
 def brute_force(text):
-	for i in range(0, 26):
+	for i in range(26):
 		print("[Shift: {}]\t\"{}\"".format(i, decrypt(text[0:20], i)))
 	print("Введите сдвиг: ")
 	shift = int(input("> "))

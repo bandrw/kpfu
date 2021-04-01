@@ -4,6 +4,7 @@ from ex02.main import generate_key, encrypt, parse_key
 
 def get_frequency(text):
 	count = 0
+	# dict.fromkeys([chr(i) for i in r], 0)
 	frequency = {}
 	for i in range(ord('a'), ord('z') + 1):
 		frequency[chr(i)] = 0
@@ -20,7 +21,7 @@ def sort_frequency(dictionary):
 	array = []
 	for i in range(ord('a'), ord('z') + 1):
 		array.append(chr(i))
-	for i in range(0, len(array)):
+	for i in range(len(array)):
 		for j in range(i + 1, len(array)):
 			if dictionary[array[i]] < dictionary[array[j]]:
 				array[i], array[j] = array[j], array[i]
@@ -28,9 +29,9 @@ def sort_frequency(dictionary):
 
 
 def get_key(ref_text, encrypted_text):
-	key = {}
 	ref_sorted = sort_frequency(get_frequency(ref_text))
 	src_sorted = sort_frequency(get_frequency(encrypted_text))
+	key = {} # dict(zip(seq1, seq2))
 	for i in range(0, len(ref_sorted)):
 		key[src_sorted[i]] = ref_sorted[i]
 	return key

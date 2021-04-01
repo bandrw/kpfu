@@ -36,9 +36,10 @@ def encrypt(text, key):
 		if ch.isupper():
 			upper = True
 		tmp = key.get(ch.lower())
-		if upper:
-			tmp = tmp.upper()
+
 		if tmp is not None:
+			if upper:
+				tmp = tmp.upper()
 			res += tmp
 		else:
 			res += ch
