@@ -1,5 +1,10 @@
+#!/usr/bin/env python3
+
 import math
 import random
+import os
+import socket
+import sys
 
 BLUE_BACK = "\033[44m"
 RED_BACK = "\033[41m"
@@ -12,7 +17,9 @@ MODES_INFO = f"""\
 {BLUE_BACK} {NULL} {'File input: 2':>16s} {BLUE_BACK} {NULL}
 {BLUE_BACK} {NULL} {'Server input: 3':>16s} {BLUE_BACK} {NULL}
 """
-RESULT_STR = f"{RED_BACK} Result {NULL} "
+
+HOST = "127.0.0.1"
+
 
 def quick_power_mod(nbr, power, n):
 	if nbr <= 0 or power <= 0:
@@ -63,9 +70,84 @@ def console_input():
 	else:
 		rounds = int(line)
 	if is_prime(nbr, rounds):
-		print(f"{RESULT_STR} {nbr} - вероятно простое")
+		print(f"{RED_BACK} {NULL} {nbr} - вероятно простое")
 	else:
-		print(f"{RESULT_STR} {nbr} - составное")
+		print(f"{RED_BACK} {NULL} {nbr} - составное")
+
+
+def file_input():
+	filename = input("Enter file name: ").strip()
+	with open(filename, "r") as f:
+		lines = f.readlines()
+	out_text = ""
+	for line in lines:
+		arr = line.split()
+		if len(arr) not in [1, 2]:
+			raise Exception(f"File parsing error ({filename})")
+		out_text += f"{arr[0]}"
+		rounds = None
+		if len(arr) == 2:
+			rounds = int(arr[1])
+			out_text += f" {arr[1]}"
+		if is_prime(int(arr[0]), rounds):
+			out_text += " - возможно простое"
+		else:
+			out_text += " - составное"
+		out_text += "\n"
+	with open("out.txt", "w") as f:
+		f.write(out_text)
+	print(f"{RED_BACK} {NULL} Result written to {os.getcwd() + '/out.txt'}")
+
+
+def server_input():
+	with socket.socket() as s:
+		try:
+			s.bind((HOST, 0))
+			_, port = s.getsockname()
+			s.listen()
+			print(f"{BLUE_BACK} {NULL} Server listening on {HOST}:{port}")
+			conn, addr = s.accept()
+			with conn:
+				print(f"{BLUE_BACK} {NULL} Connected by {addr[0]}:{addr[1]}")
+				while True:
+					b_argc = conn.recv(4)
+					if not b_argc:
+						break
+					argc = int.from_bytes(b_argc, "big")
+					b_nbr_len = conn.recv(4)
+					if not b_nbr_len:
+						break
+					nbr_len = int.from_bytes(b_nbr_len, "big")
+					if argc == 2:
+						b_rounds_len = conn.recv(4)
+						if not b_rounds_len:
+							break
+						rounds_len = int.from_bytes(b_rounds_len, "big")
+					b_nbr = conn.recv(nbr_len)
+					if not b_nbr:
+						break
+					nbr = int.from_bytes(b_nbr, "big")
+					rounds = None
+					if argc == 2:
+						b_rounds = conn.recv(rounds_len)
+						if not b_rounds:
+							break
+						rounds = int.from_bytes(b_rounds, "big")
+					print(f"Received ({nbr}, {rounds})")
+					out = f"{nbr}"
+					if rounds:
+						out += f" {rounds}"
+					if is_prime(nbr, rounds):
+						out += " - вероятно простое"
+					else:
+						out += " - составное"
+					conn.sendall(len(out).to_bytes(4, "big"))  # sending out's len
+					conn.sendall(out.encode("utf-8"))
+			print(f"{BLUE_BACK} {NULL} {addr[0]}:{addr[1]} disconnected")
+		except KeyboardInterrupt:
+			print()
+		except Exception as ex:
+			print(f"{RED}Error: {ex}{NULL}")
 
 
 def main():
@@ -74,21 +156,22 @@ def main():
 	if mode == "1":
 		console_input()
 	elif mode == "2":
-		pass
+		file_input()
 	elif mode == "3":
-		pass
+		server_input()
 	else:
 		raise Exception("Invalid mode")
 
 
 if __name__ == "__main__":
-	print(MODES_INFO)
-	while True:
-		try:
-			main()
-		except Exception as e:
-			print(f"{RED}Error: {e}{NULL}")
-		except KeyboardInterrupt:
-			print()
-			exit(0)
-		print()
+	server_input()
+	# print(MODES_INFO)
+	# while True:
+	# 	try:
+	# 		main()
+	# 	except Exception as e:
+	# 		print(f"{RED}Error: {e}{NULL}", file=sys.stderr)
+	# 	except KeyboardInterrupt:
+	# 		print()
+	# 		exit(0)
+	# 	print()
