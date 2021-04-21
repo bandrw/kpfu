@@ -47,7 +47,7 @@ def main():
 				argc = 1
 				if rounds:
 					argc = 2
-				s.sendall(argc.to_bytes(4, "big"))  # sending arg count
+				s.sendall(argc.to_bytes(4, "big"))  # sending numbers count
 				s.sendall(bytes_len(nbr).to_bytes(4, "big"))  # sending first number's length
 				if rounds:
 					s.sendall(bytes_len(rounds).to_bytes(4, "big"))  # sending second number's length
@@ -59,10 +59,9 @@ def main():
 					break
 				response_len = int.from_bytes(b_response_len, "big")
 				b_response = s.recv(response_len)
-				print(b_response)
 				if not b_response:
 					break
-				response = b_response.decode("utf-8")
+				response = str(b_response, "utf-8")
 				print(f"{RED_BACK} {NULL} {response}")
 			except Exception as ex:
 				print(f"{RED}Error: {ex}{NULL}")

@@ -133,7 +133,7 @@ def server_input():
 						if not b_rounds:
 							break
 						rounds = int.from_bytes(b_rounds, "big")
-					print(f"Received ({nbr}, {rounds})")
+					print(f"Received ({nbr}, {rounds})", end="")
 					out = f"{nbr}"
 					if rounds:
 						out += f" {rounds}"
@@ -141,8 +141,10 @@ def server_input():
 						out += " - вероятно простое"
 					else:
 						out += " - составное"
-					conn.sendall(len(out).to_bytes(4, "big"))  # sending out's len
-					conn.sendall(out.encode("utf-8"))
+					b_out = out.encode("utf-8")
+					conn.sendall(len(b_out).to_bytes(4, "big"))  # sending out's len
+					print(f". Sending \"{out}\"")
+					conn.sendall(b_out)
 			print(f"{BLUE_BACK} {NULL} {addr[0]}:{addr[1]} disconnected")
 		except KeyboardInterrupt:
 			print()
@@ -164,14 +166,13 @@ def main():
 
 
 if __name__ == "__main__":
-	server_input()
-	# print(MODES_INFO)
-	# while True:
-	# 	try:
-	# 		main()
-	# 	except Exception as e:
-	# 		print(f"{RED}Error: {e}{NULL}", file=sys.stderr)
-	# 	except KeyboardInterrupt:
-	# 		print()
-	# 		exit(0)
-	# 	print()
+	print(MODES_INFO)
+	while True:
+		try:
+			main()
+		except Exception as e:
+			print(f"{RED}Error: {e}{NULL}", file=sys.stderr)
+		except KeyboardInterrupt:
+			print()
+			exit(0)
+		print()
