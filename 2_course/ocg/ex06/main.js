@@ -32,18 +32,28 @@ class Person
 
 	render()
 	{
-		if (this.x - RADIUS <= 0 || this.x + RADIUS >= stage.width)
+		if (this.x - RADIUS * 2 <= 0 || this.x + RADIUS * 2 >= stage.width)
 			this.direction = (this.direction + Math.PI) * -1
-		if (this.y - RADIUS <= 0 || this.y + RADIUS >= stage.height)
+		else if (this.y - RADIUS * 2 <= 0 || this.y + RADIUS * 2 >= stage.height)
 			this.direction *= -1
+		else
+			this.direction += Math.random() * Math.PI / 3 - Math.PI / 6
 		this.x += Math.cos(this.direction) * this.speed
 		this.y += Math.sin(this.direction) * this.speed
+		if (this.y - RADIUS * 2 <= 0)
+			this.direction = -Math.PI / 2
+		else if (this.y + RADIUS * 2 >= stage.height)
+			this.direction = Math.PI / 2
+		else if (this.x - RADIUS * 2 <= 0)
+			this.direction = Math.PI
+		else if (this.x + RADIUS * 2 >= stage.width)
+			this.direction = 0
 		context.beginPath()
 		context.arc(this.x, this.y, RADIUS, 0, Math.PI * 2)
 		if (this.isInfected)
-			context.fillStyle = "#00a500"
+			context.fillStyle = "#00cc00"
 		else
-			context.fillStyle = "#6b0000"
+			context.fillStyle = "#cc0000"
 		context.fill()
 		for (let i = 0; i < persons.length; i++)
 		{
