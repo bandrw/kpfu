@@ -35,11 +35,11 @@ def main():
 	my_turtle.penup()
 	my_turtle.setposition(my_turtle.position()[0] - length * 1.6, my_turtle.position()[1] - length / 2.5)
 	my_turtle.pendown()
-	my_turtle.speed(1000)
-	my_turtle.pensize(5 / (segments * segments))
+	my_turtle.speed(0)
+	my_turtle.pensize(1 / (segments * segments))
 	my_turtle.draw_koch_segment(length, segments)
 	my_turtle.getscreen().getcanvas().postscript(file="out.eps")
-	print("Saved to out.eps")
+	print("Result saved to out.eps")
 	turtle.done()
 
 
