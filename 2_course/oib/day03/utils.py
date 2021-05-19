@@ -1,5 +1,12 @@
 import math
 import random
+import socket
+
+BLUE_BACK = "\033[44m"
+RED_BACK = "\033[41m"
+RED = "\033[0;31m"
+NULL = "\033[0m"
+BOLD = "\033[1m"
 
 
 def quick_power_mod(nbr, power, n):
@@ -38,3 +45,21 @@ def is_prime(nbr, rounds=None):
 		if x != nbr - 1:
 			return False
 	return True
+
+
+def receive_message(s: socket.socket):
+	try:
+		data = s.recv(4)
+		bytes_to_receive = int.from_bytes(data, "big")
+		data = s.recv(bytes_to_receive)
+		return data
+	except Exception as e:
+		print(f"\n{RED}Error: {e}{NULL}")
+
+
+def send_message(s: socket.socket, data):
+	try:
+		s.sendall(len(data).to_bytes(4, "big"))
+		s.sendall(data)
+	except Exception as e:
+		print(f"\n{RED}Error: {e}{NULL}")
