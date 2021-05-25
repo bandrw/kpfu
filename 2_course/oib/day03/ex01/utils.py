@@ -57,7 +57,7 @@ def receive_message(s: socket.socket):
 		print(f"\n{RED}Error: {e}{NULL}")
 
 
-def send_message(s: socket.socket, data):
+def send_message(s: socket.socket, data: bytes):
 	try:
 		s.sendall(len(data).to_bytes(4, "big"))
 		s.sendall(data)

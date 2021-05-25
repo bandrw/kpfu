@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import datetime
 import socket
 import threading
@@ -67,7 +68,7 @@ def client_handle(conn, addr):
 				break
 			send_message(CLIENTS["Bob"]["conn"], data)
 			response = int.from_bytes(data, "big")
-			text = segments_to_str([response], )
+			text = segments_to_str([response])
 			print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Received: {text}", end="")
 			while int.from_bytes(data, "big") != 0:
 				data = receive_message(conn)
