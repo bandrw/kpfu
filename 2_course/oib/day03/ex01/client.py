@@ -7,8 +7,6 @@ import sys
 from utils import quick_power_mod, is_prime, BLUE_BACK, NULL, RED_BACK, RED, send_message, receive_message
 
 CHARS_IN_SEGMENT = 4
-HOST = "127.0.0.1"
-PORT = 42424
 
 
 def get_public_exp(fi):
@@ -41,10 +39,10 @@ def get_private_exp(e, fi):
 def generate_prime(length):
 	while True:
 		n = random.getrandbits(length)
+		if n & 1 == 0:
+			n += 1
 		if n > 0 and is_prime(n):
 			return n
-		if n > 0 and is_prime(n + 1):
-			return n + 1
 
 
 def keygen(length, min_n):
@@ -153,18 +151,28 @@ def bob_handle(s, public_key, private_key):
 
 
 def main():
+	global CHARS_IN_SEGMENT
+	host = ""
+	port = 0
 	key_len = 32
-	if len(sys.argv) == 2:
-		try:
-			key_len = int(sys.argv[1])
-			CHARS_IN_SEGMENT = key_len // 8
-		except Exception as e:
-			print(f"Usage: ./{sys.argv[0].strip('./')} <key length>")
+	try:
+		if len(sys.argv) == 2 or len(sys.argv) == 3:
+			arr = sys.argv[1].split(':')
+			host = arr[0]
+			port = int(arr[1])
+			if len(sys.argv) == 3:
+				key_len = int(sys.argv[2])
+				CHARS_IN_SEGMENT = key_len // 8
+		else:
+			raise Exception("Usage error")
+	except:
+		print(f"Usage: ./{sys.argv[0].strip('./')} <host:port> [key length]")
+		exit(1)
 	public_key, private_key = keygen(length=key_len, min_n=(2 ** (CHARS_IN_SEGMENT * 8)))
 	print(f"Public key: {public_key}, private key: {private_key}")
 	with socket.socket() as s:
-		s.connect((HOST, PORT))
-		print(f"{BLUE_BACK} {NULL} Connected to {HOST}:{PORT}")
+		s.connect((host, port))
+		print(f"{BLUE_BACK} {NULL} Connected to {host}:{port}")
 		nickname = input("Enter your nickname (Bob / Alice): ").strip()
 		if nickname == "Alice":
 			alice_handle(s, public_key)

@@ -7,7 +7,6 @@ from client import segments_to_str
 from utils import BLUE_BACK, NULL, RED, receive_message, send_message
 
 HOST = "127.0.0.1"
-PORT = 42424
 
 CLIENTS = {
 	"Alice": {
@@ -68,7 +67,7 @@ def client_handle(conn, addr):
 				break
 			send_message(CLIENTS["Bob"]["conn"], data)
 			response = int.from_bytes(data, "big")
-			text = segments_to_str([response])
+			text = segments_to_str([response], )
 			print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Received: {text}", end="")
 			while int.from_bytes(data, "big") != 0:
 				data = receive_message(conn)
@@ -89,9 +88,10 @@ def client_handle(conn, addr):
 def main():
 	with socket.socket() as s:
 		try:
-			s.bind((HOST, PORT))
+			s.bind((HOST, 0))
+			_, port = s.getsockname()
 			s.listen()
-			print(f"{BLUE_BACK} {NULL} Server listening on {HOST}:{PORT}")
+			print(f"{BLUE_BACK} {NULL} Server listening on {HOST}:{port}")
 			while True:
 				conn, addr = s.accept()
 				thread = threading.Thread(target=client_handle, args=(conn, addr))
